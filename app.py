@@ -31,7 +31,7 @@ def index():
 
 #region Admin
 
-@app.route('/yonetici')
+@app.route('/admin')
 def yonetici():
     roomid = createRoomVoid()
     return redirect(url_for('createroom', roomid = roomid))
@@ -44,12 +44,12 @@ def createroom(roomid):
 
 #region Player
 
-@app.route('/oyuncu', methods=['GET', 'POST'])
+@app.route('/player', methods=['GET', 'POST'])
 def oyuncu():
     if request.method == 'POST':
         roomid = request.form['roomid']
         return redirect(url_for('joinroom', roomid = roomid))
-    return render_template('oyuncu.html')
+    return render_template('player.html')
 
 @app.route('/joinroom/<roomid>')
 def joinroom(roomid):
@@ -74,6 +74,11 @@ def game(roomid):
         roomuserpoints[username] = 0
         return render_template('game.html', username=username, roomid=roomid)
 
+@socketio.on('answer')
+def handle_answer(data):
+    global roomuserpoints
+    roomuserpoints[data['username']] += data['point'] # değiştir
+    emit('answer', roomuserpoints, broadcast=True)
 #endregion
 
 #region SocketIO Events
@@ -81,6 +86,39 @@ def game(roomid):
 @socketio.on('chat_message')
 def handle_chat_message(msg):
     emit('chat_message', "gelen mesaj: " + msg, broadcast=True)
+
+#endregion
+
+#region DatabaseProcesses
+
+def databaseProcess(ders_adi, konu_adi, test_adi):
+    conn = sqlite3.connect('Database.sql')
+    cursor = conn.cursor()
+
+    #ders_adi = 'Matematik'
+    #konu_adi = 'Cebir'
+    #test_adi = 'Cebir Test 1'
+
+    # Sorgu
+    cursor.execute('''
+        SELECT Sorular.soru_metni, Sorular.cevap
+        FROM Sorular
+        JOIN Testler ON Sorular.test_id = Testler.id
+        JOIN Konular ON Testler.konu_id = Konular.id
+        JOIN Dersler ON Konular.ders_id = Dersler.id
+        WHERE Dersler.ders_adi = ? AND Konular.konu_adi = ? AND Testler.test_adi = ?
+    ''', (ders_adi, konu_adi, test_adi))
+
+    # Sonuçları al ve yazdır
+    sorular = cursor.fetchall()
+    conn.close()
+
+    return sorular
+
+    # for soru in sorular:
+    #     print(f"Soru: {soru[0]}")
+    #     print(f"Cevap: {soru[1]}")
+    #     print("---")
 
 #endregion
 
