@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_socketio import SocketIO, emit
 import string, random, sqlite3
 
@@ -6,7 +6,6 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
-username = ""
 rooms = {}
 roomusers = []
 roomuserpoints = {}
@@ -53,13 +52,14 @@ def oyuncu():
 
 @app.route('/joinroom/<roomid>')
 def joinroom(roomid):
+    if roomid not in rooms:
+        return "Oda bulunamadı"
     return redirect(url_for('login', roomid = roomid))
     
 @app.route('/login/<roomid>', methods=['GET', 'POST'])
 def login(roomid):
     if request.method == 'POST':
-        global username
-        username = request.form['username']
+        session["username"] = request.form['username']
         return redirect(url_for('game', roomid = roomid))
     return render_template('login.html', roomid=roomid)
 #endregion
@@ -68,16 +68,19 @@ def login(roomid):
 def game(roomid):
     if roomid not in rooms:                     # Bu kişi admin oluyor
         rooms[roomid] = "token"
-        return render_template('admin.html', username=username, roomid=roomid)
+        session["username"] = "admin"
+        return render_template('admin.html', username=session["username"], roomid=roomid)
     else:                                       # Burada Oyuncu oluyor
-        roomusers.append(username)
-        roomuserpoints[username] = 0
-        return render_template('game.html', username=username, roomid=roomid)
+        roomusers.append(session["username"])
+        roomuserpoints[session["username"]] = 0
+        return render_template('game.html', username=session["username"], roomid=roomid)
 
 @socketio.on('answer')
 def handle_answer(data):
     global roomuserpoints
-    roomuserpoints[data['username']] += data['point'] # değiştir
+    answer = data['answer']
+    if answer == data['correct_answer']:
+        roomuserpoints[data['username']] += data['point'] # değiştir
     emit('answer', roomuserpoints, broadcast=True)
 #endregion
 
@@ -87,6 +90,13 @@ def handle_answer(data):
 def handle_chat_message(msg):
     emit('chat_message', "gelen mesaj: " + msg, broadcast=True)
 
+@socketio.on('start_game')
+def handle_start_game(data):
+    ders_adi = data['ders_adi']
+    konu_adi = data['konu_adi']
+    test_adi = data['test_adi']
+    sorular = databaseProcess(ders_adi, konu_adi, test_adi)
+    emit('start_game', sorular, broadcast=True)
 #endregion
 
 #region DatabaseProcesses
