@@ -4,16 +4,11 @@ socket.on('connect', function() {
     console.log('Connected to the server');
 });
 
-socket.on('chat_message', function(msg) {
-    var messages = document.getElementById('messages');
-    var messageItem = document.createElement('div');
+socket.on('chat_message', function(msg) { // Gelen mesajları dinle
     messageItem.textContent = msg;
-    messages.appendChild(messageItem);
 });
 
-function sendMessage() {
-    var messageInput = document.getElementById('message');
-    var message = messageInput.value;
-    socket.emit('chat_message', message); 
+function sendMessage() { // Mesaj gönderme fonksiyonu
+    socket.emit('chat_message', "mesaj"); 
     messageInput.value = '';
 }
