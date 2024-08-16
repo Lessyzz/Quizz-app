@@ -59,7 +59,7 @@ def createTable():
     conn.commit()
     conn.close()
 
-
+soru_numarasi = 0
 def veri_ekle():
     conn = sqlite3.connect('Database.sql')
     c = conn.cursor()
@@ -80,9 +80,10 @@ def veri_ekle():
         test_id = c.lastrowid
 
         while True:
-            soru = input("Soru (veya 'bitir' yazın): ")
+            soru = input(f"[{soru_numarasi}] | Soru (veya 'bitir' yazın): ")
             if soru.lower() == 'bitir':
                 break
+            soru_numarasi += 1
             dogru_sik = input("Doğru şık: ")
             c.execute("INSERT INTO Sorular (test_id, soru, dogru_sik) VALUES (?, ?, ?)", (test_id, soru, dogru_sik))
             soru_id = c.lastrowid
