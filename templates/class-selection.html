@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Role - Host or Guest</title>
+    <title>Select a Class</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,38 +22,40 @@
             padding: 40px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
         }
 
         h1 {
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             color: #333;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 15px 30px;
-            margin: 10px;
-            font-size: 16px;
+        .card {
+            background-color: #28a745;
             color: #fff;
-            background-color: #007BFF;
-            border: none;
-            border-radius: 5px;
+            padding: 40px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-size: 24px;
+            font-weight: bold;
             cursor: pointer;
-            text-decoration: none;
             transition: background-color 0.3s;
         }
 
-        .btn:hover {
-            background-color: #0056b3;
+        .card:hover {
+            background-color: #218838;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1></h1>
-        <a href="#" class="btn">Kurucu</a>
-        <a href="#" class="btn">Oyuncu</a>
+        <h1>Ders Seçimi</h1>
+        <div class="card">Ders 1</div>
+        <div class="card">Ders 2</div>
+        <div class="card">Ders 3</div>
+        <div class="card">Ders 4</div>
+        <div class="card">Ders 5</div>
     </div>
 </body>
 
