@@ -8,6 +8,8 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 
 username = ""
 rooms = {}
+roomusers = []
+roomuserpoints = {}
 
 #region Functions
 
@@ -68,6 +70,8 @@ def game(roomid):
         rooms[roomid] = "token"
         return render_template('admin.html', username=username, roomid=roomid)
     else:                                       # Burada Oyuncu oluyor
+        roomusers.append(username)
+        roomuserpoints[username] = 0
         return render_template('game.html', username=username, roomid=roomid)
 
 #endregion
