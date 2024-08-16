@@ -4,19 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Question - Host Controls</title>
+    <title>Quiz Question</title>
+    <link rel="stylesheet" href="../static/styles/variables.css">
+    <link rel="stylesheet" href="/static/styles/variables.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            background-color: #f0f0f0;
             display: flex;
-            height: 100vh;
             flex-direction: column;
+            min-height: 100vh;
+            background: var(--background);
+            background-color: var(--background-color);
         }
 
         .header {
-            background-color: #007BFF;
             color: #fff;
             padding: 20px;
             display: flex;
@@ -24,17 +26,15 @@
             align-items: center;
             font-size: 18px;
             font-weight: bold;
-            width: 100%;
-            box-sizing: border-box;
+            flex-wrap: wrap;
         }
 
-        .main-container {
-            display: flex;
+        .header div {
+            margin: 10px;
+        }
+
+        .container {
             flex: 1;
-        }
-
-        .content {
-            flex: 3;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -45,16 +45,17 @@
 
         h1 {
             margin-bottom: 40px;
-            color: #333;
+            color: #fff;
             font-size: 28px;
         }
 
         .card {
-            background-color: #28a745;
+            background-color: var(--container);
+            border: 1px solid var(--container-o);
             color: #fff;
             padding: 20px;
             margin: 10px 0;
-            border-radius: 10px;
+            border-radius: 50px;
             font-size: 20px;
             font-weight: bold;
             cursor: pointer;
@@ -65,72 +66,30 @@
         }
 
         .card:hover {
-            background-color: #218838;
+            background-color: var(--col-1);
         }
 
-        .correct {
-            background-color: #ffd700;
-            color: #333;
-            font-weight: bold;
-        }
-
-        .leaderboard {
-            flex: 1;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
-        }
-
-        .leaderboard h2 {
-            margin: 0;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #007BFF;
-            color: #333;
-            font-size: 24px;
-        }
-
-        .leaderboard ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 20px 0;
-        }
-
-        .leaderboard li {
-            background-color: #f7f7f7;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 18px;
-            color: #333;
+        #next-question-button {
+            margin-top: 80px;
+            border: none;
+            color: var(--col-4);
         }
     </style>
 </head>
 
 <body>
     <div class="header">
-        <div id="username">Username: JohnDoe</div>
-        <div id="points">Points: 50</div>
-        <div id="time">Time Left: 02:00</div>
+        <div id="username">{{username}}</div>
+        <div id="points">50</div>
+        <div id="time">02:00</div>
     </div>
-    <div class="main-container">
-        <div class="content">
-            <h1>What is the capital of France?</h1>
-            <div class="card">Berlin</div>
-            <div class="card">Madrid</div>
-            <div class="card correct">Paris</div>
-            <div class="card">Rome</div>
-            <a href="#" class="control-button">Next Question</a>
-        </div>
-        <div class="leaderboard">
-            <h2>Leaderboard</h2>
-            <ul>
-                <li>JohnDoe - 50 pts</li>
-                <li>JaneDoe - 45 pts</li>
-                <li>AlexSmith - 40 pts</li>
-                <li>EmilyJones - 35 pts</li>
-            </ul>
-        </div>
+    <div class="container">
+        <h1>What is the capital of France?</h1>
+        <div class="card">Berlin</div>
+        <div class="card">Madrid</div>
+        <div class="card">Paris</div>
+        <div class="card">Rome</div>
+        <div id="next-question-button" class="card">Sıradaki Soru</div>
     </div>
 </body>
 

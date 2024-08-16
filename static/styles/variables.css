@@ -1,0 +1,12 @@
+:root {
+    --background-color: #1F3133;
+    --background: linear-gradient(#1F3133, #406569, #1F3133);
+
+    --container: rgb(126, 198, 204, 0.1);
+    --container-o: rgb(126, 198, 204, 0.3);
+
+    --col-1: #4f7c80;
+    --col-2: #6eadb3;
+    --col-3: #6dc7cf;
+    --col-4: #b5eaee;
+}

@@ -4,38 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select a Subject</title>
+    <title>Select a Class</title>
+    <link rel="stylesheet" href="../static/styles/variables.css">
+    <link rel="stylesheet" href="/static/styles/variables.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background: var(--background);
+            background-color: var(--background-color);
         }
 
         .container {
             text-align: center;
-            background-color: #fff;
             padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 80%;
         }
 
         h1 {
             margin-bottom: 30px;
-            color: #333;
+            color: #fff;
         }
 
         .card {
-            background-color: #007BFF;
-            color: #fff;
+            background-color: var(--container);
+            color: var(--col-4);
+            border: 1px solid var(--container-o);
             padding: 40px;
             margin: 20px 0;
-            border-radius: 10px;
+            border-radius: 50px;
             font-size: 24px;
             font-weight: bold;
             cursor: pointer;
@@ -43,7 +44,7 @@
         }
 
         .card:hover {
-            background-color: #0056b3;
+            background-color: var(--col-1);
         }
     </style>
 </head>
@@ -51,10 +52,13 @@
 <body>
     <div class="container">
         <h1>Konu Seçimi</h1>
-        <div class="card">Mathematics</div>
-        <div class="card">Science</div>
-        <div class="card">History</div>
-        <div class="card">Literature</div>
+        <div class="card">Ders 1</div>
+        <div class="card">Ders 2</div>
+        <div class="card">Ders 3</div>
+        <div class="card">Ders 4</div>
+        <div class="card">Ders 5</div>
+        <div class="card">Ders 1</div>
+        <div class="card">Ders 2</div>
     </div>
 </body>
 

@@ -4,55 +4,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enter Username</title>
+    <title>Enter Room Id</title>
+    <link rel="stylesheet" href="../static/styles/variables.css">
+    <link rel="stylesheet" href="/static/styles/variables.css">
     <style>
         body {
             font-family: Arial, sans-serif;
+            height: 100vh;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
+            background-color: var(--backround-color);
+            background-image: var(--background);
         }
 
         .container {
             text-align: center;
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
         }
 
         h1 {
-            margin-bottom: 20px;
-            color: #333;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+
         }
 
-        input[type="text"] {
-            width: 80%;
-            padding: 10px;
-            margin-bottom: 20px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        form {
+            display: flex;
+            align-items: center;
+            height: 80px;
+            justify-content: space-between;
+            border-radius: 50px;
+            padding: 0 10px;
+            background-color: var(--container);
+            border: 1px solid var(--container-o);
+            gap: 10px;
+        }
+
+        input {
+            border-radius: 50px;
+            height: 80%;
+            font-size: 1rem;
+            flex-grow: 4;
+            outline: none;
+            border: none;
+            background-color: transparent;
+            color: var(--col-4);
+            padding-left: 10px;
+            transition: .25s;
+        }
+
+        input:focus,
+        input:hover {
+            background-color: var(--col-1);
         }
 
         .btn {
-            display: inline-block;
-            padding: 15px 30px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #007BFF;
+            flex-grow: 1;
+            height: 80%;
+            border-radius: 50px;
+            background-color: var(--col-2);
+            color: white;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s;
+            font-size: 1rem;
+            transition: .25s;
         }
 
         .btn:hover {
-            background-color: #0056b3;
+            background-color: var(--col-3);
         }
     </style>
 </head>
@@ -64,7 +86,6 @@
             <input type="text" placeholder="Kullanıcı Adı" id="username" name="username">
             <button type="submit" class="btn">Devam Et</a>
         </form>
-        
     </div>
 </body>
 
