@@ -1,21 +1,85 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kullanıcı Girişi</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/styles/game.css">
+    <title>Quiz Question</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .header div {
+            margin: 0 10px;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 40px;
+            color: #333;
+            font-size: 28px;
+        }
+
+        .card {
+            background-color: #28a745;
+            color: #fff;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .card:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 
 <body>
-    {{ username }}
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
-    <script src="/static/scripts/script.js"></script>
+    <div class="header">
+        <div id="username">Username: JohnDoe</div>
+        <div id="points">Points: 50</div>
+        <div id="time">Time Left: 02:00</div>
+    </div>
+    <div class="container">
+        <h1>What is the capital of France?</h1>
+        <div class="card">Berlin</div>
+        <div class="card">Madrid</div>
+        <div class="card">Paris</div>
+        <div class="card">Rome</div>
+    </div>
 </body>
 
 </html>
