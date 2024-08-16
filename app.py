@@ -20,6 +20,48 @@ def createRoomVoid():
         roomid = ''.join(random.choice(chars) for _ in range(5))
     return roomid
 
+def getLessons():
+    conn = sqlite3.connect('Database.sql')
+    cursor = conn.cursor()
+
+    lessons = cursor.execute('SELECT * FROM Dersler').fetchall()
+    return lessons
+
+def getTopics(lesson_id):
+    conn = sqlite3.connect('Database.sql')
+    cursor = conn.cursor()
+
+    topics = cursor.execute('SELECT * FROM Konular WHERE ders_id = ?', (lesson_id,)).fetchall()
+    return topics
+
+def getTests(topic_id):
+    conn = sqlite3.connect('Database.sql')
+    cursor = conn.cursor()
+
+    tests = cursor.execute('SELECT * FROM Testler WHERE konu_id = ?', (topic_id,)).fetchall()
+    return tests
+
+def getQuestions(test_id):
+    conn = sqlite3.connect('Database.sql')
+    cursor = conn.cursor()
+
+    questions = cursor.execute('SELECT * FROM Sorular WHERE test_id = ?', (test_id,)).fetchall()
+    return questions
+
+def getAnswers(question_id):
+    conn = sqlite3.connect('Database.sql')
+    cursor = conn.cursor()
+
+    answers = cursor.execute('SELECT * FROM Sıklar WHERE soru_id = ?', (question_id,)).fetchall()
+    return answers
+
+def getCorrectAnswer(question_id):
+    conn = sqlite3.connect('Database.sql')
+    cursor = conn.cursor()
+
+    correct_answer = cursor.execute('SELECT dogru_sik FROM Sorular WHERE id = ?', (question_id,)).fetchone()
+    return correct_answer
+
 #endregion
 
 #region Web Routes
@@ -69,7 +111,8 @@ def game(roomid):
     if roomid not in rooms:                     # Bu kişi admin oluyor
         rooms[roomid] = "token"
         session["username"] = "admin"
-        return render_template('admin.html', username=session["username"], roomid=roomid)
+        lessons = getLessons()
+        return render_template('admin.html', username=session["username"], roomid=roomid, lessons=lessons)
     else:                                       # Burada Oyuncu oluyor
         roomusers.append(session["username"])
         roomuserpoints[session["username"]] = 0
@@ -86,51 +129,16 @@ def handle_answer(data):
 
 #region SocketIO Events
 
-@socketio.on('chat_message')
-def handle_chat_message(msg):
-    emit('chat_message', "gelen mesaj: " + msg, broadcast=True)
-
 @socketio.on('start_game')
-def handle_start_game(data):
-    ders_adi = data['ders_adi']
-    konu_adi = data['konu_adi']
-    test_adi = data['test_adi']
-    sorular = databaseProcess(ders_adi, konu_adi, test_adi)
-    emit('start_game', sorular, broadcast=True)
-#endregion
+def handle_chat_message(msg):
+    emit('start_game', "start", broadcast=True)
 
-#region DatabaseProcesses
-
-def databaseProcess(ders_adi, konu_adi, test_adi):
-    conn = sqlite3.connect('Database.sql')
-    cursor = conn.cursor()
-
-    #ders_adi = 'Matematik'
-    #konu_adi = 'Cebir'
-    #test_adi = 'Cebir Test 1'
-
-    # Sorgu
-    cursor.execute('''
-        SELECT Sorular.soru_metni, Sorular.cevap
-        FROM Sorular
-        JOIN Testler ON Sorular.test_id = Testler.id
-        JOIN Konular ON Testler.konu_id = Konular.id
-        JOIN Dersler ON Konular.ders_id = Dersler.id
-        WHERE Dersler.ders_adi = ? AND Konular.konu_adi = ? AND Testler.test_adi = ?
-    ''', (ders_adi, konu_adi, test_adi))
-
-    # Sonuçları al ve yazdır
-    sorular = cursor.fetchall()
-    conn.close()
-
-    return sorular
-
-    # for soru in sorular:
-    #     print(f"Soru: {soru[0]}")
-    #     print(f"Cevap: {soru[1]}")
-    #     print("---")
+@socketio.on('select_lesson')
+def handle_chat_message(msg):
+    emit('select_topic', getTopics(msg), broadcast=True)
 
 #endregion
+
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+    socketio.run(app, host='localhost', port=5000)

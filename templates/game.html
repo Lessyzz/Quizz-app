@@ -78,12 +78,22 @@
         <div id="time">02:00</div>
     </div>
     <div class="container">
-        <h1>What is the capital of France?</h1>
+        <h1 style="margin-top: -50px;">Yönetici bekleniyor...</h1>
+        <!-- <h1>What is the capital of France?</h1>
         <div class="card">Berlin</div>
         <div class="card">Madrid</div>
         <div class="card">Paris</div>
-        <div class="card">Rome</div>
+        <div class="card">Rome</div> -->
     </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+
+<script>
+    var socket = io();
+
+    socket.on('start_game', function(data) {
+        console.log("oyun basladi");
+    });
+</script>
 
 </html>
