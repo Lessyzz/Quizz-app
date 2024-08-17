@@ -78,9 +78,10 @@
         <div id="time">02:00</div>
     </div>
 
-    <div class="container" id="1">
+    <div class="container" id="container">
+        <h1>Ders Seçimi</h1>
         {% for lesson in lessons %}
-            <div class="card" onclick="select_lesson('{{ lesson[0] }}')">{{ lesson[1] }}</div>
+        <div class="card" onclick="select_lesson('{{ lesson[0] }}')">{{ lesson[1] }}</div>
         {% endfor %}
     </div>
 
@@ -91,23 +92,33 @@
     var socket = io();
 
     function startGame() {
-        socket.emit('start_game', "start"); 
+        socket.emit('start_game', "start");
     }
 
-    socket.on('start_game', function(data) {
+    socket.on('start_game', function (data) {
         console.log("oyun basladi");
     });
 
     function select_lesson(lesson_id) {
-        socket.emit('select_lesson', lesson_id); 
+        socket.emit('select_lesson', lesson_id);
     }
 
-    socket.on('select_topic', function(data) {
-        document.getElementById("1").style.display = "none";
-        data.forEach((element) => {
-            console.log(element[2]); // -> Topic Name
+    socket.on('select_topic', function (data) {
+        const container = document.getElementById("container")
+        container.innerHTML = "";
+        container.insertAdjacentHTML("beforeend", "<h1>Konu Seçimi</h1>") //Başlık için 
+        data.forEach((topic) => {
+            //topic[0]  ID
+            //topic[1]  Ders ID
+            //topic[2]  Ad
+            container.insertAdjacentHTML("beforeend", `<div class="card" onclick="select_topic(${topic[0]},${topic[1]})"> ${topic[2]}</div>`)
         });
     });
+
+    function select_topic(id, dersId) {
+        //TODO
+        console.log(id, dersId)
+    }
 </script>
 
 </html>
