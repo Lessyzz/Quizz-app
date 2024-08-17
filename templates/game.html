@@ -86,12 +86,12 @@
         <div class="card">Rome</div> -->
     </div>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+<script src="/static/scripts/socket.io.min.js"></script>
 
 <script>
     var socket = io();
 
-    socket.on('start_game', function(data) {
+    socket.on('start_game', function (data) {
         console.log("oyun basladi");
     });
 </script>
