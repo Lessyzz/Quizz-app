@@ -92,7 +92,17 @@
     var socket = io();
 
     socket.on('start_game', function (data) {
+        
         console.log("oyun basladi");
+    });
+    
+    socket.on('get_question_as_player', function (data) {
+        question_number = data[0]; // Soru numarası
+        question = data[1]; // Soru
+        answers = data[2]; // Şıklar liste olarak
+        console.log(question); // Burada soru var 
+        console.log(answers);
+        console.log(answers[0]); // 1.şık 
     });
 </script>
 

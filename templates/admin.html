@@ -95,15 +95,11 @@
         socket.emit('start_game', "start");
     }
 
-    socket.on('start_game', function (data) {
-        console.log("oyun basladi");
-    });
-
     function select_lesson(lesson_id) {
         socket.emit('select_lesson', lesson_id);
     }
 
-    socket.on('select_topic', function (data) {
+    socket.on('select_topic', function (data) { // Topic Handle
         const container = document.getElementById("container")
         container.innerHTML = "";
         container.insertAdjacentHTML("beforeend", "<h1>Konu Seçimi</h1>") //Başlık için 
@@ -111,14 +107,61 @@
             //topic[0]  ID
             //topic[1]  Ders ID
             //topic[2]  Ad
-            container.insertAdjacentHTML("beforeend", `<div class="card" onclick="select_topic(${topic[0]},${topic[1]})"> ${topic[2]}</div>`)
+            container.insertAdjacentHTML("beforeend", `<div class="card" onclick="select_topic(${topic[0]})"> ${topic[2]}</div>`)
         });
     });
 
-    function select_topic(id, dersId) {
-        //TODO
-        console.log(id, dersId)
+    function select_topic(id) { // Topic emit func
+        socket.emit("select_topic", id);
     }
+
+    socket.on('select_test', function (data) { // Topic Handle
+        const container = document.getElementById("container")
+        container.innerHTML = "";
+        container.insertAdjacentHTML("beforeend", "<h1>Test Seçimi</h1>") //Başlık için 
+        data.forEach((test) => {
+            //topic[0]  ID
+            //topic[1]  Konu ID
+            //topic[2]  Ad
+            container.insertAdjacentHTML("beforeend", `<div class="card" onclick="select_test(${test[0]})"> ${test[2]}</div>`)
+        });
+    });
+
+    function select_test(id) { // test emit func
+        const container = document.getElementById("container")
+        container.innerHTML = "";
+        container.insertAdjacentHTML("beforeend", `<div class="card" onclick="start_game(${id})">Oyunu başlat!</div>`)
+    }
+
+    function start_game(id) {
+        /* Burada start game butonu çalışıyor burada oyun başlatılıyor gibi bir text yazdırabilirsin
+         5 saniye boyunca efektli onu gösterebilir falan aynısını
+        game.html içerisinde 95.satırda yapabilirsin orada burada yapacağın işlemin aynısını yap
+         */
+
+        // Burada 5 saniye delay olacak.
+        socket.emit("select_test", id);
+    }
+
+    socket.on('get_questions_and_answers', function (data) { // Question answer handle
+        const container = document.getElementById("container")
+        container.innerHTML = ""
+        var questions = data[0];
+        var answers = data[1];
+
+        // questions[2] -> Soru 
+        // questions[3] -> Doğru cevabın bulunduğu şık 1-2-3-4 cinsinden 
+
+        
+        for (var i = 0; i < questions.length; i++) {
+            container.insertAdjacentHTML("beforeend", "<h1>Soru - ${i}</h1>"); // Niye olmadı anlamadım qwıdjkqslasdasd
+            // Buraya 4 şıkkı da koyman gerekiyor 
+            // questions[i][2]; -> Bu soru metni
+            // answers; -> bu da liste olarak cevapları tutuyor
+            // answers[0] -> 1.şık
+            socket.emit('broadcast_question_to_players', [i, questions[i][2], [answers[0], answers[1], answers[2], answers[3]]]); // ilk değişken soru numarası ikincisi soru üçüncüsü cevaplar
+        }
+    });
 </script>
 
 </html>

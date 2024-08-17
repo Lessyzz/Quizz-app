@@ -52,7 +52,7 @@ def getAnswers(question_id):
     conn = sqlite3.connect('Database.sql')
     cursor = conn.cursor()
 
-    answers = cursor.execute('SELECT * FROM Sıklar WHERE soru_id = ?', (question_id,)).fetchall()
+    answers = cursor.execute('SELECT sik FROM Sıklar WHERE soru_id = ?', (question_id,)).fetchall()
     return answers
 
 def getCorrectAnswer(question_id):
@@ -134,8 +134,23 @@ def handle_chat_message(msg):
     emit('start_game', "start", broadcast=True)
 
 @socketio.on('select_lesson')
-def handle_chat_message(msg):
+def handle_lesson(msg):
     emit('select_topic', getTopics(msg), broadcast=True)
+
+@socketio.on('select_topic')
+def handle_topic(msg):
+    emit('select_test', getTests(msg), broadcast=True)
+
+@socketio.on('select_test')
+def handle_test(msg):
+    emit('get_questions_and_answers', [getQuestions(msg), getAnswers(msg)], broadcast=True)
+    
+@socketio.on('broadcast_question_to_players')
+def broadcast_question_to_players(msg):
+    question_number = msg[0]
+    question = msg[1]
+    answers = msg[2]
+    emit('get_question_as_player', [question_number, question, answers], broadcast=True)
 
 #endregion
 
