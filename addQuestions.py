@@ -61,6 +61,7 @@ def createTable():
 
 soru_numarasi = 0
 def veri_ekle():
+    global soru_numarasi
     conn = sqlite3.connect('Database.sql')
     c = conn.cursor()
 
