@@ -173,7 +173,7 @@ def manage_data():
             conn.execute('INSERT INTO Dersler (ad) VALUES (?)', (ders_ad,))
             ders_id = conn.execute('SELECT last_insert_rowid()').fetchone()[0]
         else:
-            ders_id = ders['id']
+            ders_id = ders[0]
 
         # Konu ekleme veya mevcut konu ID'sini alma
         konu = conn.execute('SELECT * FROM Konular WHERE ad = ? AND ders_id = ?', (konu_ad, ders_id)).fetchone()
@@ -181,7 +181,7 @@ def manage_data():
             conn.execute('INSERT INTO Konular (ad, ders_id) VALUES (?, ?)', (konu_ad, ders_id))
             konu_id = conn.execute('SELECT last_insert_rowid()').fetchone()[0]
         else:
-            konu_id = konu['id']
+            konu_id = konu[0]
 
         # Test ekleme veya mevcut test ID'sini alma
         test = conn.execute('SELECT * FROM Testler WHERE ad = ? AND konu_id = ?', (test_ad, konu_id)).fetchone()
@@ -189,7 +189,7 @@ def manage_data():
             conn.execute('INSERT INTO Testler (ad, konu_id) VALUES (?, ?)', (test_ad, konu_id))
             test_id = conn.execute('SELECT last_insert_rowid()').fetchone()[0]
         else:
-            test_id = test['id']
+            test_id = test[0]
 
         # Soru ekleme
         conn.execute('INSERT INTO Sorular (test_id, soru, dogru_sik, sure_sn) VALUES (?, ?, ?, ?)', (test_id, soru, dogru_sik, sure_sn))

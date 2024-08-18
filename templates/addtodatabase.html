@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,72 +9,78 @@
         form {
             margin-bottom: 20px;
         }
+
         .form-group {
             margin-bottom: 15px;
         }
+
         label {
             display: block;
             margin-bottom: 5px;
         }
-        input, select {
+
+        input,
+        select {
             width: 100%;
             padding: 8px;
             box-sizing: border-box;
         }
     </style>
 </head>
+
 <body>
 
-<h1>Ders Yönetimi</h1>
+    <h1>Ders Yönetimi</h1>
 
-<form action="" method="POST">
-    <div class="form-group">
-        <label for="ders_ad">Ders Adı</label>
-        <input type="text" id="ders_ad" name="ders_ad" required>
-    </div>
+    <form action="" method="POST">
+        <div class="form-group">
+            <label for="ders_ad">Ders Adı</label>
+            <input type="text" id="ders_ad" name="ders_ad" required>
+        </div>
 
-    <div class="form-group">
-        <label for="konu_ad">Konu Adı</label>
-        <input type="text" id="konu_ad" name="konu_ad" required>
-    </div>
+        <div class="form-group">
+            <label for="konu_ad">Konu Adı</label>
+            <input type="text" id="konu_ad" name="konu_ad" required>
+        </div>
 
-    <div class="form-group">
-        <label for="test_ad">Test Adı</label>
-        <input type="text" id="test_ad" name="test_ad" required>
-    </div>
+        <div class="form-group">
+            <label for="test_ad">Test Adı</label>
+            <input type="text" id="test_ad" name="test_ad" required>
+        </div>
 
-    <div class="form-group">
-        <label for="soru">Soru</label>
-        <input type="text" id="soru" name="soru" required>
-    </div>
+        <div class="form-group">
+            <label for="soru">Soru</label>
+            <input type="text" id="soru" name="soru" required>
+        </div>
 
-    <div class="form-group">
-        <label for="dogru_sik">Doğru Şık</label>
-        <input type="text" id="dogru_sik" name="dogru_sik" required>
-    </div>
+        <div class="form-group">
+            <label for="dogru_sik">Doğru Şık</label>
+            <input type="text" id="dogru_sik" name="dogru_sik" required>
+        </div>
 
-    <div class="form-group">
-        <label for="sure_sn">Soru Süresi</label>
-        <input type="text" id="sure_sn" name="sure_sn" required>
-    </div>
+        <div class="form-group">
+            <label for="sure_sn">Soru Süresi</label>
+            <input type="text" id="sure_sn" name="sure_sn" required>
+        </div>
 
-    <div class="form-group">
-        <label for="siklar">Şıklar (Her bir şık için ayrı bir input ekleyin)</label>
-        <input type="text" id="sik" name="siklar" required>
-        <input type="text" id="sik" name="siklar" required>
-        <input type="text" id="sik" name="siklar" required>
-        <input type="text" id="sik" name="siklar" required>
-    </div>
+        <div class="form-group">
+            <label for="siklar">Şıklar (Her bir şık için ayrı bir input ekleyin)</label>
+            <input type="text" id="sik" name="siklar" required>
+            <input type="text" id="sik" name="siklar" required>
+            <input type="text" id="sik" name="siklar" required>
+            <input type="text" id="sik" name="siklar" required>
+        </div>
 
-    <button type="submit">Kaydet</button>
-</form>
+        <button type="submit">Kaydet</button>
+    </form>
 
-<h2>Mevcut Dersler</h2>
-<ul>
-    {% for ders in dersler %}
-        <li>{{ ders.ad }}</li>
-    {% endfor %}
-</ul>
+    <h2>Mevcut Dersler</h2>
+    <ul>
+        {% for ders in dersler %}
+        <li>{{ ders[1] }}</li>
+        {% endfor %}
+    </ul>
 
 </body>
+
 </html>
