@@ -38,15 +38,9 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
             padding: 20px;
             text-align: center;
-        }
-
-        h1 {
-            margin-bottom: 40px;
-            color: #fff;
-            font-size: 28px;
+            align-items: center;
         }
 
         .card {
@@ -69,6 +63,35 @@
         .card:hover {
             background-color: var(--col-1);
         }
+
+        h3 {
+            text-align: center;
+            color: var(--col-2);
+        }
+
+        h2 {
+            text-align: left;
+            color: #fff;
+        }
+
+        #answers {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        #answers .card {
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        @media (max-width: 600px) {
+            #answers {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
@@ -80,16 +103,10 @@
     </div>
     <div class="container">
         <div class="card" id="change-on-loading">Yönetici bekleniyor...</div>
-        <!-- <h1>What is the capital of France?</h1>
-        <div class="card">Berlin</div>
-        <div class="card">Madrid</div>
-        <div class="card">Paris</div>
-        <div class="card">Rome</div> -->
     </div>
 </body>
 <script src="/static/scripts/socket.io.min.js"></script>
 <script src="/static/assets/loading-animation.js"></script>
-
 <script defer>
     document.querySelector(".container").insertAdjacentHTML("beforeend", loadingAnimationHtml)
     var socket = io();
@@ -98,7 +115,6 @@
         document.body.classList.add("loading")
 
         const counter = document.getElementById("change-on-loading")
-
         for (let i = 0; i < 10; i -= -1) {
             setTimeout(() => {
                 counter.textContent = `Başlıyor ${10 - i}`
@@ -111,11 +127,20 @@
 
         question_number = data[0]; // Soru numarası
         question = data[1]; // Soru
-        answers = data[2]; // Şıklar liste olarak
-        console.log(question); // Burada soru var 
-        console.log(answers);
-        console.log(answers[0]); // 1.şık 
+        answers = data[2].map((answer, i) => `<div class="card" onclick="giveAnswer(${i})">${answer}</div>`).join("\n")
+
+        const container = document.querySelector(".container")
+        //                              ↓ Index 0 ile başladığı için istersen bunu kaldırıp Backend kısmında ekleyebiliriz
+        container.innerHTML = `
+            <h3>Soru ${question_number + 1}</h3> 
+            <h2>${question}</h2>
+            <div id="answers"> ${answers} </div>
+        `
     });
+
+    function giveAnswer(answerId) {
+        console.log(answerId)
+    }
 </script>
 
 </html>
