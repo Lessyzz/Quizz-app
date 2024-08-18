@@ -154,6 +154,57 @@ def broadcast_question_to_players(msg):
 
 #endregion
 
+@app.route('/addtodatabase', methods=['GET', 'POST'])
+def manage_data():
+    conn = sqlite3.connect('Database.sql')
+
+    if request.method == 'POST':
+        ders_ad = request.form.get('ders_ad')
+        konu_ad = request.form.get('konu_ad')
+        test_ad = request.form.get('test_ad')
+        soru = request.form.get('soru')
+        dogru_sik = request.form.get('dogru_sik')
+        sure_sn = request.form.get('sure_sn')
+        siklar = request.form.getlist('siklar')
+
+        # Ders ekleme veya mevcut ders ID'sini alma
+        ders = conn.execute('SELECT * FROM Dersler WHERE ad = ?', (ders_ad,)).fetchone()
+        if ders is None:
+            conn.execute('INSERT INTO Dersler (ad) VALUES (?)', (ders_ad,))
+            ders_id = conn.execute('SELECT last_insert_rowid()').fetchone()[0]
+        else:
+            ders_id = ders['id']
+
+        # Konu ekleme veya mevcut konu ID'sini alma
+        konu = conn.execute('SELECT * FROM Konular WHERE ad = ? AND ders_id = ?', (konu_ad, ders_id)).fetchone()
+        if konu is None:
+            conn.execute('INSERT INTO Konular (ad, ders_id) VALUES (?, ?)', (konu_ad, ders_id))
+            konu_id = conn.execute('SELECT last_insert_rowid()').fetchone()[0]
+        else:
+            konu_id = konu['id']
+
+        # Test ekleme veya mevcut test ID'sini alma
+        test = conn.execute('SELECT * FROM Testler WHERE ad = ? AND konu_id = ?', (test_ad, konu_id)).fetchone()
+        if test is None:
+            conn.execute('INSERT INTO Testler (ad, konu_id) VALUES (?, ?)', (test_ad, konu_id))
+            test_id = conn.execute('SELECT last_insert_rowid()').fetchone()[0]
+        else:
+            test_id = test['id']
+
+        # Soru ekleme
+        conn.execute('INSERT INTO Sorular (test_id, soru, dogru_sik, sure_sn) VALUES (?, ?, ?, ?)', (test_id, soru, dogru_sik, sure_sn))
+        soru_id = conn.execute('SELECT last_insert_rowid()').fetchone()[0]
+
+        # Şıklar ekleme
+        for sik in siklar:
+            conn.execute('INSERT INTO Sıklar (soru_id, sik) VALUES (?, ?)', (soru_id, sik))
+
+        conn.commit()
+
+    dersler = conn.execute('SELECT * FROM Dersler').fetchall()
+    conn.close()
+
+    return render_template('addtodatabase.html', dersler=dersler)
 
 if __name__ == '__main__':
     socketio.run(app, host='localhost', port=5000)
