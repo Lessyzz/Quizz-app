@@ -150,7 +150,8 @@ def broadcast_question_to_players(msg):
     question_number = msg[0]
     question = msg[1]
     answers = msg[2]
-    emit('get_question_as_player', [question_number, question, answers], broadcast=True)
+    duration = msg[3]
+    emit('get_question_as_player', [question_number, question, answers, duration], broadcast=True)
 
 #endregion
 

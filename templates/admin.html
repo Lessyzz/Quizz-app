@@ -106,7 +106,7 @@
     <div class="header">
         <div id="username">{{username}}</div>
         <div id="points">50</div>
-        <div id="time">02:00</div>
+        <div id="time"></div>
     </div>
 
     <div class="container" id="container">
@@ -202,6 +202,11 @@
     function nextQuestion() {
         currentQuestion++
 
+        if (!questions[currentQuestion]) {
+            toLeaderboard()
+            return
+        }
+
         let baseIndex = currentQuestion * 4;
         let currentAnswers = [answers[baseIndex], answers[baseIndex + 1], answers[baseIndex + 2], answers[baseIndex + 3]];
 
@@ -215,7 +220,30 @@
             <div id="answers"> ${answerElement} </div>
         `
 
-        socket.emit('broadcast_question_to_players', [currentQuestion, questions[currentQuestion][2], currentAnswers]);
+        const time = document.getElementById("time")
+        let remaning = questions[currentQuestion][4]
+        time.textContent = remaning
+
+        const timer = setInterval(() => {
+            remaning += -1
+            if (remaning == 0) {
+                clearInterval(timer)
+                toLeaderboard()
+            }
+            time.textContent = remaning
+        }, 1000)
+
+
+        socket.emit('broadcast_question_to_players', [currentQuestion, questions[currentQuestion][2], currentAnswers, questions[currentQuestion][4]]);
+    }
+
+    function toLeaderboard() {
+        //TODO go to leaderboard 
+        const container = document.querySelector(".container")
+
+        container.innerHTML = `
+            <div class="card" onclick="nextQuestion()">Sonraki Soru</div>
+        `
     }
 
     socket.on('get_questions_and_answers', function (data) { // Question answer handle

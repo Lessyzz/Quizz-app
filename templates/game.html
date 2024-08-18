@@ -100,7 +100,7 @@
     <div class="header">
         <div id="username">{{username}}</div>
         <div id="points">50</div>
-        <div id="time">02:00</div>
+        <div id="time"></div>
     </div>
     <div class="container">
         <div class="card" id="change-on-loading">Yönetici bekleniyor...</div>
@@ -137,7 +137,26 @@
             <h2>${question}</h2>
             <div id="answers"> ${answers} </div>
         `
+
+        const time = document.getElementById("time")
+        let remaning = data[3]
+        time.textContent = remaning
+
+        const timer = setInterval(() => {
+            remaning += -1
+            if (remaning == 0) {
+                clearInterval(timer)
+                toLeaderboard()
+            }
+            time.textContent = remaning
+        }, 1000)
     });
+
+    function toLeaderboard() {
+        //TODO go to leaderboard 
+        const container = document.querySelector(".container")
+        container.innerHTML = `<div class="card">Leaderboard</div>`
+    }
 
     function giveAnswer(answerId) {
         console.log(answerId)
