@@ -63,6 +63,7 @@
             width: 100%;
             max-width: 600px;
             text-align: center;
+            backdrop-filter: blur(16px);
         }
 
         .card:hover {
@@ -91,9 +92,10 @@
 <script>
     var socket = io();
 
-    function startGame() {
-        socket.emit('start_game', "start");
-    }
+    //Bu tanımlanmış ve alt kısımda tekrar tanımlanmış 137. satır. İçindekini alta koydum
+    // function startGame() {
+    //     socket.emit('start_game', "start"); 
+    // }
 
     function select_lesson(lesson_id) {
         socket.emit('select_lesson', lesson_id);
@@ -130,17 +132,37 @@
     function select_test(id) { // test emit func
         const container = document.getElementById("container")
         container.innerHTML = "";
-        container.insertAdjacentHTML("beforeend", `<div class="card" onclick="start_game(${id})">Oyunu başlat!</div>`)
+
+        container.insertAdjacentHTML("beforeend", loadingAnimationHtml)
+        container.insertAdjacentHTML("beforeend", `<div class="card" id="change-on-loading" onclick="start_game(${id})">Oyunu başlat!</div>`)
     }
 
     function start_game(id) {
         /* Burada start game butonu çalışıyor burada oyun başlatılıyor gibi bir text yazdırabilirsin
          5 saniye boyunca efektli onu gösterebilir falan aynısını
-        game.html içerisinde 95.satırda yapabilirsin orada burada yapacağın işlemin aynısını yap
+         game.html içerisinde 95.satırda yapabilirsin orada burada yapacağın işlemin aynısını yap
          */
 
         // Burada 5 saniye delay olacak.
-        socket.emit("select_test", id);
+        socket.emit('start_game', "start");
+
+        document.body.classList.add("loading")
+
+        const counter = document.getElementById("change-on-loading")
+        counter.setAttribute("onclick", "")
+        counter.style.cursor = "default"
+
+        for (let i = 0; i < 10; i -= -1) {
+            setTimeout(() => {
+                counter.textContent = `Başlıyor ${10 - i}`
+            }, i * 1000)
+        }
+
+        setTimeout(() => {
+            socket.emit("select_test", id);
+            document.body.classList.remove("loading")
+        }, 10000);
+
     }
 
     socket.on('get_questions_and_answers', function (data) { // Question answer handle
@@ -152,9 +174,9 @@
         // questions[2] -> Soru 
         // questions[3] -> Doğru cevabın bulunduğu şık 1-2-3-4 cinsinden 
 
-        
+
         for (var i = 0; i < questions.length; i++) {
-            container.insertAdjacentHTML("beforeend", "<h1>Soru - ${i}</h1>"); // Niye olmadı anlamadım qwıdjkqslasdasd
+            container.insertAdjacentHTML("beforeend", `<h1>Soru - ${i}</h1>`); // Niye olmadı anlamadım qwıdjkqslasdasd
             // Buraya 4 şıkkı da koyman gerekiyor 
             // questions[i][2]; -> Bu soru metni
             // answers; -> bu da liste olarak cevapları tutuyor
@@ -163,5 +185,6 @@
         }
     });
 </script>
+<script src="/static/assets/loading-animation.js"></script>
 
 </html>

@@ -63,6 +63,7 @@
             width: 100%;
             max-width: 600px;
             text-align: center;
+            backdrop-filter: blur(16px);
         }
 
         .card:hover {
@@ -78,7 +79,7 @@
         <div id="time">02:00</div>
     </div>
     <div class="container">
-        <h1 style="margin-top: -50px;">Yönetici bekleniyor...</h1>
+        <div class="card" id="change-on-loading">Yönetici bekleniyor...</div>
         <!-- <h1>What is the capital of France?</h1>
         <div class="card">Berlin</div>
         <div class="card">Madrid</div>
@@ -87,16 +88,27 @@
     </div>
 </body>
 <script src="/static/scripts/socket.io.min.js"></script>
+<script src="/static/assets/loading-animation.js"></script>
 
-<script>
+<script defer>
+    document.querySelector(".container").insertAdjacentHTML("beforeend", loadingAnimationHtml)
     var socket = io();
 
     socket.on('start_game', function (data) {
-        
-        console.log("oyun basladi");
+        document.body.classList.add("loading")
+
+        const counter = document.getElementById("change-on-loading")
+
+        for (let i = 0; i < 10; i -= -1) {
+            setTimeout(() => {
+                counter.textContent = `Başlıyor ${10 - i}`
+            }, i * 1000)
+        }
     });
-    
+
     socket.on('get_question_as_player', function (data) {
+        document.body.classList.remove("loading")
+
         question_number = data[0]; // Soru numarası
         question = data[1]; // Soru
         answers = data[2]; // Şıklar liste olarak
