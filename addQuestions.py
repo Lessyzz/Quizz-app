@@ -41,6 +41,7 @@ def createTable():
             test_id INTEGER,
             soru TEXT NOT NULL,
             dogru_sik TEXT NOT NULL,
+            sure_sn INTEGER NOT NULL,
             FOREIGN KEY (test_id) REFERENCES Testler(id)
         )
     ''')
@@ -86,7 +87,8 @@ def veri_ekle():
                 break
             soru_numarasi += 1
             dogru_sik = input("Doğru şık: ")
-            c.execute("INSERT INTO Sorular (test_id, soru, dogru_sik) VALUES (?, ?, ?)", (test_id, soru, dogru_sik))
+            sure = input("Soru süresi(saniye): ")
+            c.execute("INSERT INTO Sorular (test_id, soru, dogru_sik, sure_sn) VALUES (?, ?, ?,?)", (test_id, soru, dogru_sik, sure))
             soru_id = c.lastrowid
 
             for i in range(4):
