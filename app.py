@@ -52,7 +52,7 @@ def getAnswers(question_id):
     conn = sqlite3.connect('Database.sql')
     cursor = conn.cursor()
 
-    answers = cursor.execute('SELECT sik FROM Sıklar WHERE soru_id = ?', (question_id,)).fetchall()
+    answers = cursor.execute('SELECT sik FROM Sıklar').fetchall()
     return answers
 
 def getCorrectAnswer(question_id):

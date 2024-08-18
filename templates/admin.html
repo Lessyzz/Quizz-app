@@ -177,11 +177,12 @@
 
         for (var i = 0; i < questions.length; i++) {
             container.insertAdjacentHTML("beforeend", `<h1>Soru - ${i}</h1>`); // Niye olmadı anlamadım qwıdjkqslasdasd
-            // Buraya 4 şıkkı da koyman gerekiyor 
-            // questions[i][2]; -> Bu soru metni
-            // answers; -> bu da liste olarak cevapları tutuyor
-            // answers[0] -> 1.şık
-            socket.emit('broadcast_question_to_players', [i, questions[i][2], [answers[0], answers[1], answers[2], answers[3]]]); // ilk değişken soru numarası ikincisi soru üçüncüsü cevaplar
+            console.log(answers);
+            // Cevap indekslerini hesapla
+            var baseIndex = i * 4;
+            var currentAnswers = [answers[baseIndex], answers[baseIndex + 1], answers[baseIndex + 2], answers[baseIndex + 3]];
+
+            socket.emit('broadcast_question_to_players', [i, questions[i][2], currentAnswers]); // ilk değişken soru numarası ikincisi soru üçüncüsü cevaplar
         }
     });
 </script>
