@@ -16,6 +16,7 @@
             min-height: 100vh;
             background: var(--background);
             background-color: var(--background-color);
+            overflow: hidden;
         }
 
         .header {
@@ -69,6 +70,35 @@
         .card:hover {
             background-color: var(--col-1);
         }
+
+        h3 {
+            text-align: center;
+            color: var(--col-2);
+        }
+
+        h2 {
+            text-align: left;
+            color: #fff;
+        }
+
+        #answers {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        #answers .card {
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        @media (max-width: 600px) {
+            #answers {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
@@ -90,7 +120,7 @@
 <script src="/static/scripts/socket.io.min.js"></script>
 
 <script>
-    var socket = io();
+    let socket = io();
 
     //Bu tanımlanmış ve alt kısımda tekrar tanımlanmış 137. satır. İçindekini alta koydum
     // function startGame() {
@@ -152,39 +182,50 @@
         counter.setAttribute("onclick", "")
         counter.style.cursor = "default"
 
-        for (let i = 0; i < 10; i -= -1) {
+        for (let i = 0; i < 7; i -= -1) {
             setTimeout(() => {
-                counter.textContent = `Başlıyor ${10 - i}`
+                counter.textContent = `Başlıyor ${7 - i}`
             }, i * 1000)
         }
 
         setTimeout(() => {
             socket.emit("select_test", id);
             document.body.classList.remove("loading")
-        }, 10000);
+        }, 7000);
 
     }
 
+    let questions;
+    let answers;
+    let currentQuestion = -1;
+
+    function nextQuestion() {
+        currentQuestion++
+
+        let baseIndex = currentQuestion * 4;
+        let currentAnswers = [answers[baseIndex], answers[baseIndex + 1], answers[baseIndex + 2], answers[baseIndex + 3]];
+
+        let answerElement = currentAnswers.map((answer, i) => `<div class="card">${answer}</div>`).join("\n")
+        const container = document.querySelector(".container")
+
+        //                              ↓ Index 0 ile başladığı için istersen bunu kaldırıp Backend kısmında ekleyebiliriz
+        container.innerHTML = `
+            <h3>Soru ${currentQuestion + 1}</h3> 
+            <h2>${questions[currentQuestion][2]}</h2>
+            <div id="answers"> ${answerElement} </div>
+        `
+
+        socket.emit('broadcast_question_to_players', [currentQuestion, questions[currentQuestion][2], currentAnswers]);
+    }
+
     socket.on('get_questions_and_answers', function (data) { // Question answer handle
-        const container = document.getElementById("container")
-        container.innerHTML = ""
-        var questions = data[0];
-        var answers = data[1];
-
-        // questions[2] -> Soru 
-        // questions[3] -> Doğru cevabın bulunduğu şık 1-2-3-4 cinsinden 
-
-
-        for (var i = 0; i < questions.length; i++) {
-            container.insertAdjacentHTML("beforeend", `<h1>Soru - ${i}</h1>`); // Niye olmadı anlamadım qwıdjkqslasdasd
-            console.log(answers);
-            // Cevap indekslerini hesapla
-            var baseIndex = i * 4;
-            var currentAnswers = [answers[baseIndex], answers[baseIndex + 1], answers[baseIndex + 2], answers[baseIndex + 3]];
-
-            socket.emit('broadcast_question_to_players', [i, questions[i][2], currentAnswers]); // ilk değişken soru numarası ikincisi soru üçüncüsü cevaplar
-        }
+        questions = data[0]
+        answers = data[1]
+        currentQuestion = -1
+        nextQuestion()
     });
+
+
 </script>
 <script src="/static/assets/loading-animation.js"></script>
 
