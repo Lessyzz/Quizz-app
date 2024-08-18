@@ -116,9 +116,9 @@
         document.body.classList.add("loading")
 
         const counter = document.getElementById("change-on-loading")
-        for (let i = 0; i < 10; i -= -1) {
+        for (let i = 0; i < 7; i -= -1) {
             setTimeout(() => {
-                counter.textContent = `Başlıyor ${10 - i}`
+                counter.textContent = `Başlıyor ${7 - i}`
             }, i * 1000)
         }
     });
