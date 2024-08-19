@@ -103,8 +103,15 @@ def joinroom(roomid):
 def login(roomid):
     if request.method == 'POST':
         session["username"] = request.form['username']
-        return redirect(url_for('game', roomid = roomid))
+        return redirect(url_for('selectcharacter', roomid = roomid))
     return render_template('login.html', roomid=roomid)
+
+@app.route('/selectcharacter/<roomid>', methods=['GET', 'POST'])
+def selectcharacter(roomid):
+    if request.method == 'POST':
+        session["character"] = request.form['character']
+        return redirect(url_for('game', roomid = roomid))
+    return render_template('selectcharacter.html')
 #endregion
 
 @app.route('/game/<roomid>')

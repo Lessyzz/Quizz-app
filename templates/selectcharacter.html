@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karakter Seç</title>
+    <link rel="stylesheet" href="../static/styles/variables.css">
+    <link rel="stylesheet" href="/static/styles/variables.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--backround-color);
+            background-image: var(--background);
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+        }
+
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-gap: 10px;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+        }
+
+        .character {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: .25s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .character:hover {
+            border: 2px solid var(--col-2);
+        }
+
+        .character img {
+            width: 100%;
+            height: 100%;
+            object-fit:contain;
+        }
+
+        .btn {
+            width: 150px;
+            height: 50px;
+            border-radius: 25px;
+            background-color: var(--col-2);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: .25s;
+        }
+
+        .btn:hover {
+            background-color: var(--col-3);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Karakter Seç</h1>
+        <form action="" method="POST">
+            <div class="characters-grid">
+                <!-- 32 karakter -->
+                <label class="character">
+                    <input type="radio" name="character" value="1" style="display:none;">
+                    <img src="/static/characters/1.png" alt="Karakter 1">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="2" style="display:none;">
+                    <img src="/static/characters/2.png" alt="Karakter 2">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="3" style="display:none;">
+                    <img src="/static/characters/3.png" alt="Karakter 3">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="4" style="display:none;">
+                    <img src="/static/characters/4.png" alt="Karakter 4">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="5" style="display:none;">
+                    <img src="/static/characters/5.png" alt="Karakter 5">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="6" style="display:none;">
+                    <img src="/static/characters/6.png" alt="Karakter 6">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="7" style="display:none;">
+                    <img src="/static/characters/7.png" alt="Karakter 7">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="8" style="display:none;">
+                    <img src="/static/characters/8.png" alt="Karakter 8">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="9" style="display:none;">
+                    <img src="/static/characters/9.png" alt="Karakter 9">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="10" style="display:none;">
+                    <img src="/static/characters/10.png" alt="Karakter 10">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="11" style="display:none;">
+                    <img src="/static/characters/11.png" alt="Karakter 11">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="12" style="display:none;">
+                    <img src="/static/characters/12.png" alt="Karakter 12">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="13" style="display:none;">
+                    <img src="/static/characters/13.png" alt="Karakter 13">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="14" style="display:none;">
+                    <img src="/static/characters/14.png" alt="Karakter 14">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="15" style="display:none;">
+                    <img src="/static/characters/15.png" alt="Karakter 15">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="16" style="display:none;">
+                    <img src="/static/characters/16.png" alt="Karakter 16">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="17" style="display:none;">
+                    <img src="/static/characters/17.png" alt="Karakter 17">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="18" style="display:none;">
+                    <img src="/static/characters/18.png" alt="Karakter 18">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="19" style="display:none;">
+                    <img src="/static/characters/19.png" alt="Karakter 19">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="20" style="display:none;">
+                    <img src="/static/characters/20.png" alt="Karakter 20">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="21" style="display:none;">
+                    <img src="/static/characters/21.png" alt="Karakter 21">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="22" style="display:none;">
+                    <img src="/static/characters/22.png" alt="Karakter 22">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="23" style="display:none;">
+                    <img src="/static/characters/23.png" alt="Karakter 23">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="24" style="display:none;">
+                    <img src="/static/characters/24.png" alt="Karakter 24">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="25" style="display:none;">
+                    <img src="/static/characters/25.png" alt="Karakter 25">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="26" style="display:none;">
+                    <img src="/static/characters/26.png" alt="Karakter 26">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="27" style="display:none;">
+                    <img src="/static/characters/27.png" alt="Karakter 27">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="28" style="display:none;">
+                    <img src="/static/characters/28.png" alt="Karakter 28">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="29" style="display:none;">
+                    <img src="/static/characters/29.png" alt="Karakter 29">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="30" style="display:none;">
+                    <img src="/static/characters/30.png" alt="Karakter 30">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="31" style="display:none;">
+                    <img src="/static/characters/31.png" alt="Karakter 31">
+                </label>
+                <label class="character">
+                    <input type="radio" name="character" value="32" style="display:none;">
+                    <img src="/static/characters/32.png" alt="Karakter 32">
+                </label>
+            </div>
+            <button type="submit" class="btn">Devam Et</button>
+        </form>
+    </div>
+    <script>
+        const characters = document.querySelectorAll('.character input');
+    
+        characters.forEach(character => {
+            character.addEventListener('change', function() {
+                // Önce tüm karakterlerin sınırlarını kaldır
+                characters.forEach(c => {
+                    c.parentElement.style.border = '2px solid transparent';
+                });
+    
+                // Seçilen karakterin sınırını ekle
+                if (this.checked) {
+                    this.parentElement.style.border = '2px solid var(--col-2)';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

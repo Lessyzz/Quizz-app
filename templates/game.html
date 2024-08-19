@@ -132,7 +132,6 @@
         answers = data[3].map((answer, i) => `<div class="card" onclick="giveAnswer(${question_id}, ${i}, ${duration})">${answer}</div>`).join("\n")
 
         const container = document.querySelector(".container")
-        //                              ↓ Index 0 ile başladığı için istersen bunu kaldırıp Backend kısmında ekleyebiliriz
         container.innerHTML = `
             <h3>Soru ${question_number + 1}</h3> 
             <h2>${question}</h2>
