@@ -147,6 +147,10 @@
     socket.on('get_question_as_player', function (data) {
         document.body.classList.remove("loading")
         document.querySelector(".loading-container")?.remove()
+        selectedAnswerId = 666
+        questionId = 666
+        answeredOn = null
+
         let question_id = data[0]; // Soru idsi
         let question_number = data[1]; // Soru numarası
         let question = data[2]; // Soru
@@ -180,8 +184,8 @@
         container.innerHTML = `<div class="card">Leaderboard</div>`
     }
 
-    let selectedAnswerId
-    let questionId
+    let selectedAnswerId = 666
+    let questionId = 666
     let answeredOn;
 
     function giveAnswer(_questionId, answerId, totalDuration) {
@@ -215,7 +219,7 @@
     socket.on('check_answer', function (data) { // Cevabın geldiği yer burası
         let point = data[3];
         let correctAnswerIndex = data[4];
-        console.log(correctAnswerIndex)
+        console.log(data)
         document.getElementById("points").textContent = point;
         if (data[2] == document.getElementById("username-text").textContent) {
             if (data[0]) {
