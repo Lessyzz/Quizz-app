@@ -182,10 +182,11 @@
 
     let selectedAnswerId
     let questionId
+    let answeredOn;
 
     function giveAnswer(_questionId, answerId, totalDuration) {
         var time = document.getElementById("time"); //      
-        let answeredtime = totalDuration - time.textContent;
+        let answeredtime = totalDuration - remaning;
 
         const cards = document.querySelectorAll("#answers .card");
         cards.forEach((c, i) => {
