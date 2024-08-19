@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ders Yönetimi</title>
+    <link rel="stylesheet" href="../static/styles/variables.css">
+    <link rel="stylesheet" href="/static/styles/variables.css">
     <style>
         form {
             margin-bottom: 20px;
@@ -24,6 +26,84 @@
             width: 100%;
             padding: 8px;
             box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: var(--background);
+            background-color: var(--background-color);
+        }
+
+        h1 {
+            margin-bottom: 40px;
+            color: #ffffff; /* Başlık rengi */
+            font-size: 28px;
+        }
+
+        h2 {
+            text-align: left;
+            color: #ffffff; /* İkinci başlık rengi */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ffffff; /* Label rengi */
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #444444; /* Input çerçeve rengi */
+            background-color: #333333; /* Input arka plan rengi */
+            color: #ffffff; /* Input metin rengi */
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #333333; /* Buton arka plan rengi */
+            color: #ffffff; /* Buton metin rengi */
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #555555; /* Buton hover arka plan rengi */
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background-color: #1e1e1e; /* Kart arka plan rengi */
+            border: 1px solid #333333; /* Kart çerçeve rengi */
+            color: #ffffff; /* Kart metin rengi */
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            backdrop-filter: blur(16px);
+        }
+
+        .card:hover {
+            background-color: #444444; /* Kart hover arka plan rengi */
         }
     </style>
 </head>
@@ -64,10 +144,10 @@
         </div>
 
         <div class="form-group">
-            <label for="siklar">Şıklar (Her bir şık için ayrı bir input ekleyin)</label>
-            <input type="text" id="sik" name="siklar" required>
-            <input type="text" id="sik" name="siklar" required>
-            <input type="text" id="sik" name="siklar" required>
+            <label for="siklar">Şıklar</label>
+            <input type="text" id="sik" name="siklar" style="margin-bottom: 10px;" required>
+            <input type="text" id="sik" name="siklar" style="margin-bottom: 10px;" required>
+            <input type="text" id="sik" name="siklar" style="margin-bottom: 10px;" required>
             <input type="text" id="sik" name="siklar" required>
         </div>
 
