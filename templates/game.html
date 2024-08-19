@@ -125,10 +125,11 @@
 
     socket.on('get_question_as_player', function (data) {
         document.body.classList.remove("loading")
-
-        question_number = data[0]; // Soru numarası
-        question = data[1]; // Soru
-        answers = data[2].map((answer, i) => `<div class="card" onclick="giveAnswer(${i})">${answer}</div>`).join("\n")
+        question_id = data[0]; // Soru idsi
+        question_number = data[1]; // Soru numarası
+        question = data[2]; // Soru
+        duration = data[4] // Süre
+        answers = data[3].map((answer, i) => `<div class="card" onclick="giveAnswer(${question_id}, ${i}, ${duration})">${answer}</div>`).join("\n")
 
         const container = document.querySelector(".container")
         //                              ↓ Index 0 ile başladığı için istersen bunu kaldırıp Backend kısmında ekleyebiliriz
@@ -139,16 +140,15 @@
         `
 
         const time = document.getElementById("time")
-        let remaning = data[3]
+        let remaning = data[4]
         time.textContent = remaning
 
         const timer = setInterval(() => {
             remaning += -1
-            if (remaning == 0) {
-                clearInterval(timer)
-                toLeaderboard()
-            }
             time.textContent = remaning
+            if (remaning == 0) {
+                clearInterval(timer);
+            }
         }, 1000)
     });
 
@@ -158,9 +158,25 @@
         container.innerHTML = `<div class="card">Leaderboard</div>`
     }
 
-    function giveAnswer(answerId) {
-        console.log(answerId)
+    function giveAnswer(questionId, answerId, totalDuration) {
+        var time = document.getElementById("time"); // 
+
+        console.log(totalDuration - time.textContent); // Total cevaplama süresi puana yardımcı olacak
+        const timer2 = setInterval(() => {
+            if (time.textContent == 0) {
+                socket.emit('give_answer', [questionId, answerId]);
+                clearInterval(timer2)
+            }
+        }, 200)
     }
+
+    socket.on('check_answer', function (data) { // Cevabın geldiği yer burası
+        console.log(data);
+        if (data) { // Cevap doğru renk boyama olacak
+
+        }
+        toLeaderboard() // Leaderbord göster
+    });
 </script>
 
 </html>

@@ -168,12 +168,6 @@
     }
 
     function start_game(id) {
-        /* Burada start game butonu çalışıyor burada oyun başlatılıyor gibi bir text yazdırabilirsin
-         5 saniye boyunca efektli onu gösterebilir falan aynısını
-         game.html içerisinde 95.satırda yapabilirsin orada burada yapacağın işlemin aynısını yap
-         */
-
-        // Burada 5 saniye delay olacak.
         socket.emit('start_game', "start");
 
         document.body.classList.add("loading")
@@ -199,7 +193,7 @@
     let answers;
     let currentQuestion = -1;
 
-    function nextQuestion() {
+    function nextQuestion(questionId) {
         currentQuestion++
 
         if (!questions[currentQuestion]) {
@@ -234,7 +228,7 @@
         }, 1000)
 
 
-        socket.emit('broadcast_question_to_players', [currentQuestion, questions[currentQuestion][2], currentAnswers, questions[currentQuestion][4]]);
+        socket.emit('broadcast_question_to_players', [questionId, currentQuestion, questions[currentQuestion][2], currentAnswers, questions[currentQuestion][4]]);
     }
 
     function toLeaderboard() {
@@ -250,7 +244,7 @@
         questions = data[0]
         answers = data[1]
         currentQuestion = -1
-        nextQuestion()
+        nextQuestion(questions[0][0])
     });
 
 

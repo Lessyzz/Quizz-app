@@ -60,6 +60,7 @@ def getCorrectAnswer(question_id):
     cursor = conn.cursor()
 
     correct_answer = cursor.execute('SELECT dogru_sik FROM Sorular WHERE id = ?', (question_id,)).fetchone()
+    correct_answer = int(correct_answer[0])
     return correct_answer
 
 #endregion
@@ -147,11 +148,20 @@ def handle_test(msg):
     
 @socketio.on('broadcast_question_to_players')
 def broadcast_question_to_players(msg):
-    question_number = msg[0]
-    question = msg[1]
-    answers = msg[2]
-    duration = msg[3]
-    emit('get_question_as_player', [question_number, question, answers, duration], broadcast=True)
+    question_id = msg[0]
+    question_number = msg[1]
+    question = msg[2]
+    answers = msg[3]
+    duration = msg[4]
+    emit('get_question_as_player', [question_id, question_number, question, answers, duration], broadcast=True)
+
+@socketio.on('give_answer') # Handle answers
+def handle_answer(msg):
+    isTrue = False
+
+    if msg[1] + 1 == getCorrectAnswer(msg[0]): # Doğru mu yanlış mı kontrol et msg[1] + 1 çünkü cevap indexi 0 dan başlıyor doğru cevap indexi 1 den başlıyor
+        isTrue = True
+    emit('check_answer', isTrue, broadcast=True)
 
 #endregion
 
