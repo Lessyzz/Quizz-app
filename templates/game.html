@@ -186,7 +186,7 @@
 
     function giveAnswer(_questionId, answerId, totalDuration) {
         var time = document.getElementById("time"); //      
-        let answeredtime = totalDuration - remaning;
+        answeredOn = totalDuration - remaning;
 
         const cards = document.querySelectorAll("#answers .card");
         cards.forEach((c, i) => {
