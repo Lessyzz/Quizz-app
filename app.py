@@ -96,8 +96,9 @@ def createroom(roomid):
 def oyuncu():
     if request.method == 'POST':
         roomid = request.form['roomid']
-        return redirect(url_for('joinroom', roomid = roomid, roomnames = roomnames))
-    return render_template('player.html')
+        return redirect(url_for('joinroom', roomid = roomid))
+    print(roomnames)
+    return render_template('player.html', roomnames = roomnames)
 
 @app.route('/joinroom/<roomid>')
 def joinroom(roomid):

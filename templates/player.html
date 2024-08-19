@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enter Room Id</title>
     <link rel="stylesheet" href="../static/styles/variables.css">
-    <link rel="stylesheet" href="/static/styles/variables.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,7 +27,32 @@
         h1 {
             color: #ffffff;
             margin-bottom: 1.5rem;
+        }
 
+        .room-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .room-buttons button {
+            flex-grow: 1;
+            height: 50px;
+            border-radius: 50px;
+            background-color: var(--col-2);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: .25s;
+            width: 100%;
+            max-width: 180px;
+        }
+
+        .room-buttons button:hover {
+            background-color: var(--col-3);
         }
 
         form {
@@ -81,12 +105,29 @@
 
 <body>
     <div class="container">
+
+        <h1>Aktif odalar</h1>
+
+        <div class="room-buttons">
+            {% for room in roomnames %}
+            <button type="button" onclick="selectRoom('{{ room }}')">{{ room }}</button>
+            {% endfor %}
+        </div>
+
         <h1>Oda numarasını gir</h1>
-        <form action="" method="POST">
+
+        <form action="" method="POST" id="roomForm">
             <input type="text" placeholder="Oda numarasını girin" id="roomid" name="roomid">
             <button type="submit" class="btn">Devam Et</button>
         </form>
     </div>
+
+    <script>
+        function selectRoom(room) {
+            document.getElementById('roomid').value = room;
+            document.getElementById('roomForm').submit();
+        }
+    </script>
 </body>
 
 </html>
