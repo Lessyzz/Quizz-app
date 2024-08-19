@@ -38,7 +38,7 @@
         .header div {
             margin: 10px;
             min-width: 0;
-            flex-shrink: 1; 
+            flex-shrink: 1;
         }
 
         .container {
@@ -201,7 +201,7 @@
     let answers;
     let currentQuestion = -1;
 
-    function nextQuestion(questionId) {
+    function nextQuestion() {
         currentQuestion++
 
         if (!questions[currentQuestion]) {
@@ -236,7 +236,7 @@
         }, 1000)
 
 
-        socket.emit('broadcast_question_to_players', [questionId, currentQuestion, questions[currentQuestion][2], currentAnswers, questions[currentQuestion][4]]);
+        socket.emit('broadcast_question_to_players', [questions[currentQuestion][0], currentQuestion, questions[currentQuestion][2], currentAnswers, questions[currentQuestion][4]]);
     }
 
     function toLeaderboard() {
@@ -252,7 +252,7 @@
         questions = data[0]
         answers = data[1]
         currentQuestion = -1
-        nextQuestion(questions[0][0])
+        nextQuestion()
     });
 
 
