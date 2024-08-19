@@ -86,7 +86,7 @@ def yonetici():
 
 @app.route('/createroom/<roomid>')
 def createroom(roomid):
-    return redirect(url_for('game', roomid = roomid))
+    return redirect(url_for('game', roomid = roomid, characterid = 1))
 
 #endregion
 
@@ -122,13 +122,13 @@ def selectcharacter(roomid):
         if not selected_character:
             selected_character = str(random.randint(1, 32))
         session["character"] = selected_character
-        return redirect(url_for('game', roomid=roomid))
+        return redirect(url_for('game', roomid=roomid, characterid = selected_character))
     
     return render_template('selectcharacter.html')
 #endregion
 
-@app.route('/game/<roomid>')
-def game(roomid):
+@app.route('/game/<roomid>/<characterid>')
+def game(roomid, characterid):
     if roomid not in rooms:                     # Bu kişi admin oluyor
         rooms[roomid] = "token"
         roomnames.append(roomid)
@@ -138,7 +138,7 @@ def game(roomid):
     else:                                       # Burada Oyuncu oluyor
         roomusers.append(session["username"])
         roomuserpoints[session["username"]] = 0
-        return render_template('game.html', username=session["username"], roomid=roomid)
+        return render_template('game.html', username=session["username"], roomid=roomid, characterid=characterid)
 
 @socketio.on('answer')
 def handle_answer(data):
@@ -179,10 +179,12 @@ def broadcast_question_to_players(msg):
 @socketio.on('give_answer') # Handle answers
 def handle_answer(msg):
     isTrue = False
-
+    # msg[0] -> question_id, 
+    # msg[1] -> answer
+    # msg[2] -> username
     if msg[1] + 1 == getCorrectAnswer(msg[0]): # Doğru mu yanlış mı kontrol et msg[1] + 1 çünkü cevap indexi 0 dan başlıyor doğru cevap indexi 1 den başlıyor
         isTrue = True
-    emit('check_answer', isTrue, broadcast=True)
+    emit('check_answer', isTrue, msg[1], msg[2], broadcast=True)
 
 #endregion
 

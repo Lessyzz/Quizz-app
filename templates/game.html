@@ -22,19 +22,32 @@
         .header {
             color: #fff;
             padding: 20px;
+            padding-top: 5px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 18px;
             font-weight: bold;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             position: absolute;
             z-index: 1;
             width: 100%;
+            box-sizing: border-box;
         }
 
         .header div {
             margin: 10px;
+            min-width: 0;
+            flex-shrink: 1; 
+        }
+
+        #username {
+            display: flex;
+            align-items: center;
+        }
+
+        .username-text {
+            margin-left: 10px;
         }
 
         .container {
@@ -101,7 +114,10 @@
 
 <body>
     <div class="header">
-        <div id="username">{{username}}</div>
+        <div id="username">
+            <img src="/static/characters/{{ characterid }}.png" width="40" height="40">
+            <span class="username-text">{{username}}</span>
+        </div>
         <div id="points">50</div>
         <div id="time"></div>
     </div>
@@ -162,12 +178,16 @@
     }
 
     function giveAnswer(questionId, answerId, totalDuration) {
-        var time = document.getElementById("time"); // 
-
+        var time = document.getElementById("time"); //      
         console.log(totalDuration - time.textContent); // Total cevaplama süresi puana yardımcı olacak
+        
+        const cards = document.querySelectorAll("#answers .card");
+        const targetCard = cards[answerId];
+        targetCard.style.backgroundColor = "#cccc33";
+
         const timer2 = setInterval(() => {
             if (time.textContent == 0) {
-                socket.emit('give_answer', [questionId, answerId]);
+                socket.emit('give_answer', [questionId, answerId, username-text.textContent]);
                 clearInterval(timer2)
             }
         }, 200)
@@ -175,10 +195,14 @@
 
     socket.on('check_answer', function (data) { // Cevabın geldiği yer burası
         console.log(data);
-        if (data) { // Cevap doğru renk boyama olacak
-
+        if (data[2] == username-text.textContent) 
+        {
+            if (data[0])
+            { 
+                // Cevap doğru renk boyama olacak
+            }
         }
-        toLeaderboard() // Leaderbord göster
+        //toLeaderboard() // Leaderbord göster
     });
 </script>
 
