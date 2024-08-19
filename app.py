@@ -184,7 +184,7 @@ def handle_answer(msg):
     # msg[2] -> username
     if msg[1] + 1 == getCorrectAnswer(msg[0]): # Doğru mu yanlış mı kontrol et msg[1] + 1 çünkü cevap indexi 0 dan başlıyor doğru cevap indexi 1 den başlıyor
         isTrue = True
-    emit('check_answer', isTrue, msg[1], msg[2], broadcast=True)
+    emit('check_answer', [isTrue, msg[1], msg[2]], broadcast=True)
 
 #endregion
 

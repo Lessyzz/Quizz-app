@@ -38,7 +38,7 @@
         .header div {
             margin: 10px;
             min-width: 0;
-            flex-shrink: 1; 
+            flex-shrink: 1;
         }
 
         #username {
@@ -116,7 +116,7 @@
     <div class="header">
         <div id="username">
             <img src="/static/characters/{{ characterid }}.png" width="40" height="40">
-            <span class="username-text">{{username}}</span>
+            <span id="username-text">{{username}}</span>
         </div>
         <div id="points">50</div>
         <div id="time"></div>
@@ -142,6 +142,8 @@
         }
     });
 
+    let remaning;
+
     socket.on('get_question_as_player', function (data) {
         document.body.classList.remove("loading")
         document.querySelector(".loading-container")?.remove()
@@ -159,13 +161,14 @@
         `
 
         const time = document.getElementById("time")
-        let remaning = data[4]
+        remaning = data[4]
         time.textContent = remaning
 
         const timer = setInterval(() => {
             remaning += -1
             time.textContent = remaning
             if (remaning == 0) {
+                emitAnswer()
                 clearInterval(timer);
             }
         }, 1000)
@@ -177,28 +180,41 @@
         container.innerHTML = `<div class="card">Leaderboard</div>`
     }
 
-    function giveAnswer(questionId, answerId, totalDuration) {
+    let selectedAnswerId
+    let questionId
+
+    function giveAnswer(_questionId, answerId, totalDuration) {
         var time = document.getElementById("time"); //      
         console.log(totalDuration - time.textContent); // Total cevaplama süresi puana yardımcı olacak
-        
-        const cards = document.querySelectorAll("#answers .card");
-        const targetCard = cards[answerId];
-        targetCard.style.backgroundColor = "#cccc33";
 
-        const timer2 = setInterval(() => {
-            if (time.textContent == 0) {
-                socket.emit('give_answer', [questionId, answerId, username-text.textContent]);
-                clearInterval(timer2)
+        const cards = document.querySelectorAll("#answers .card");
+        cards.forEach((c, i) => {
+
+            if (answerId == i) {
+                c.style.backgroundColor = "var(--higlight-container)";
+                c.style.borderColor = "var(--higlight-container-border)";
+            } else {
+                c.style.opacity = "0.4"
             }
-        }, 200)
+
+            c.setAttribute("onclick", "")
+            c.style.cursor = "default"
+        })
+
+        selectedAnswerId = answerId
+        questionId = _questionId
+    }
+
+    function emitAnswer() {
+        if (selectedAnswerId && questionId) {
+            socket.emit('give_answer', [questionId, selectedAnswerId, document.getElementById("username-text").textContent]);
+        }
     }
 
     socket.on('check_answer', function (data) { // Cevabın geldiği yer burası
         console.log(data);
-        if (data[2] == username-text.textContent) 
-        {
-            if (data[0])
-            { 
+        if (data[2] == document.getElementById("username-text").textContent) {
+            if (data[0]) {
                 // Cevap doğru renk boyama olacak
             }
         }
