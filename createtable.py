@@ -42,6 +42,7 @@ def createTable():
             soru TEXT NOT NULL,
             dogru_sik TEXT NOT NULL,
             sure_sn INTEGER NOT NULL,
+            soru_puan INTEGER NOT NULL,
             FOREIGN KEY (test_id) REFERENCES Testler(id)
         )
     ''')

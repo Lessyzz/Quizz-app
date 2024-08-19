@@ -66,6 +66,14 @@ def getCorrectAnswer(question_id):
     correct_answer = int(correct_answer[0])
     return correct_answer
 
+def getQuestionPoints(question_id):
+    conn = sqlite3.connect('Database.sql')
+    cursor = conn.cursor()
+
+    points = cursor.execute('SELECT soru_puan FROM Sorular WHERE id = ?', (question_id,)).fetchone()
+    points = int(points[0])
+    return points
+
 def getRooms():
     return rooms
 
@@ -140,13 +148,6 @@ def game(roomid, characterid):
         roomuserpoints[session["username"]] = 0
         return render_template('game.html', username=session["username"], roomid=roomid, characterid=characterid)
 
-@socketio.on('answer')
-def handle_answer(data):
-    global roomuserpoints
-    answer = data['answer']
-    if answer == data['correct_answer']:
-        roomuserpoints[data['username']] += data['point'] # değiştir
-    emit('answer', roomuserpoints, broadcast=True)
 #endregion
 
 #region SocketIO Events
@@ -178,13 +179,15 @@ def broadcast_question_to_players(msg):
 
 @socketio.on('give_answer') # Handle answers
 def handle_answer(msg):
+    global roomuserpoints
     isTrue = False
     # msg[0] -> question_id, 
     # msg[1] -> answer
     # msg[2] -> username
     if msg[1] + 1 == getCorrectAnswer(msg[0]): # Doğru mu yanlış mı kontrol et msg[1] + 1 çünkü cevap indexi 0 dan başlıyor doğru cevap indexi 1 den başlıyor
         isTrue = True
-    emit('check_answer', [isTrue, msg[1], msg[2]], broadcast=True)
+        roomuserpoints[msg[2]] += getQuestionPoints(msg[0]) # değiştir
+    emit('check_answer', [isTrue, msg[1], msg[2]], roomuserpoints[msg[2]], broadcast=True)
 
 #endregion
 
@@ -199,6 +202,7 @@ def manage_data():
         soru = request.form.get('soru')
         dogru_sik = request.form.get('dogru_sik')
         sure_sn = request.form.get('sure_sn')
+        soru_puan = request.form.get('soru_puan')
         siklar = request.form.getlist('siklar')
 
         # Ders ekleme veya mevcut ders ID'sini alma
@@ -226,7 +230,7 @@ def manage_data():
             test_id = test[0]
 
         # Soru ekleme
-        conn.execute('INSERT INTO Sorular (test_id, soru, dogru_sik, sure_sn) VALUES (?, ?, ?, ?)', (test_id, soru, dogru_sik, sure_sn))
+        conn.execute('INSERT INTO Sorular (test_id, soru, dogru_sik, sure_sn, soru_puan) VALUES (?, ?, ?, ?, ?)', (test_id, soru, dogru_sik, sure_sn, soru_puan))
         soru_id = conn.execute('SELECT last_insert_rowid()').fetchone()[0]
 
         # Şıklar ekleme

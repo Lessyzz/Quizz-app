@@ -118,7 +118,7 @@
             <img src="/static/characters/{{ characterid }}.png" width="40" height="40">
             <span id="username-text">{{username}}</span>
         </div>
-        <div id="points">50</div>
+        <div id="points">0</div>
         <div id="time"></div>
     </div>
     <div class="container">
@@ -185,7 +185,7 @@
 
     function giveAnswer(_questionId, answerId, totalDuration) {
         var time = document.getElementById("time"); //      
-        console.log(totalDuration - time.textContent); // Total cevaplama süresi puana yardımcı olacak
+        let answeredtime = totalDuration - time.textContent;
 
         const cards = document.querySelectorAll("#answers .card");
         cards.forEach((c, i) => {
@@ -212,7 +212,8 @@
     }
 
     socket.on('check_answer', function (data) { // Cevabın geldiği yer burası
-        console.log(data);
+        let point = data[3];
+        document.getElementById("points").textContent = point;
         if (data[2] == document.getElementById("username-text").textContent) {
             if (data[0]) {
                 // Cevap doğru renk boyama olacak
