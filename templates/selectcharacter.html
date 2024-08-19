@@ -226,12 +226,10 @@
     
         characters.forEach(character => {
             character.addEventListener('change', function() {
-                // Önce tüm karakterlerin sınırlarını kaldır
                 characters.forEach(c => {
                     c.parentElement.style.border = '2px solid transparent';
                 });
     
-                // Seçilen karakterin sınırını ekle
                 if (this.checked) {
                     this.parentElement.style.border = '2px solid var(--col-2)';
                 }

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_socketio import SocketIO, emit
-import string, random, sqlite3
+import sqlite3
+from random_word import RandomWords
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -12,13 +13,14 @@ roomuserpoints = {}
 
 #region Functions
 
-def createRoomVoid():
-    chars = string.ascii_letters + string.digits
-    roomid = ''.join(random.choice(chars) for _ in range(5))
+r = RandomWords()
 
-    while roomid in rooms:
-        roomid = ''.join(random.choice(chars) for _ in range(5))
-    return roomid
+def createRoomVoid():
+    word = r.get_random_word()
+
+    while word in rooms:
+        word = r.get_random_word()
+    return word
 
 def getLessons():
     conn = sqlite3.connect('Database.sql')
@@ -63,6 +65,9 @@ def getCorrectAnswer(question_id):
     correct_answer = int(correct_answer[0])
     return correct_answer
 
+def getRooms():
+    return rooms
+
 #endregion
 
 #region Web Routes
@@ -90,7 +95,7 @@ def createroom(roomid):
 def oyuncu():
     if request.method == 'POST':
         roomid = request.form['roomid']
-        return redirect(url_for('joinroom', roomid = roomid))
+        return redirect(url_for('joinroom', roomid = roomid, rooms = rooms))
     return render_template('player.html')
 
 @app.route('/joinroom/<roomid>')
