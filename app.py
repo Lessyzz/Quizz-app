@@ -10,6 +10,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 rooms = {}
 roomusers = []
 roomuserpoints = {}
+roomnames = []
 
 #region Functions
 
@@ -95,7 +96,7 @@ def createroom(roomid):
 def oyuncu():
     if request.method == 'POST':
         roomid = request.form['roomid']
-        return redirect(url_for('joinroom', roomid = roomid, rooms = rooms))
+        return redirect(url_for('joinroom', roomid = roomid, roomnames = roomnames))
     return render_template('player.html')
 
 @app.route('/joinroom/<roomid>')
@@ -123,6 +124,7 @@ def selectcharacter(roomid):
 def game(roomid):
     if roomid not in rooms:                     # Bu kişi admin oluyor
         rooms[roomid] = "token"
+        roomnames.append(roomid)
         session["username"] = "admin"
         lessons = getLessons()
         return render_template('admin.html', username=session["username"], roomid=roomid, lessons=lessons)
