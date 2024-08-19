@@ -235,7 +235,6 @@
             time.textContent = remaning
         }, 1000)
 
-
         socket.emit('broadcast_question_to_players', [questions[currentQuestion][0], currentQuestion, questions[currentQuestion][2], currentAnswers, questions[currentQuestion][4]]);
     }
 

@@ -61,7 +61,6 @@ def getAnswers(question_id):
 def getCorrectAnswer(question_id):
     conn = sqlite3.connect('Database.sql')
     cursor = conn.cursor()
-
     correct_answer = cursor.execute('SELECT dogru_sik FROM Sorular WHERE id = ?', (question_id,)).fetchone()
     correct_answer = int(correct_answer[0])
     return correct_answer
