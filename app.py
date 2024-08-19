@@ -115,9 +115,15 @@ def login(roomid):
 
 @app.route('/selectcharacter/<roomid>', methods=['GET', 'POST'])
 def selectcharacter(roomid):
+    import random
     if request.method == 'POST':
-        session["character"] = request.form['character']
-        return redirect(url_for('game', roomid = roomid))
+        selected_character = request.form.get('character')
+        
+        if not selected_character:
+            selected_character = str(random.randint(1, 32))
+        session["character"] = selected_character
+        return redirect(url_for('game', roomid=roomid))
+    
     return render_template('selectcharacter.html')
 #endregion
 

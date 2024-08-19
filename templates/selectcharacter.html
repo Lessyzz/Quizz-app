@@ -86,7 +86,7 @@
 <body>
     <div class="container">
         <h1>Karakter Seç</h1>
-        <form action="" method="POST">
+        <form action="" method="POST" id="character-form">
             <div class="characters-grid">
                 <!-- 32 karakter -->
                 <label class="character">
@@ -223,7 +223,7 @@
     </div>
     <script>
         const characters = document.querySelectorAll('.character input');
-    
+        var isCharacterSelected = false;
         characters.forEach(character => {
             character.addEventListener('change', function() {
                 characters.forEach(c => {
@@ -231,6 +231,7 @@
                 });
     
                 if (this.checked) {
+                    isCharacterSelected = true;
                     this.parentElement.style.border = '2px solid var(--col-2)';
                 }
             });
