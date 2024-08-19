@@ -214,6 +214,8 @@
 
     socket.on('check_answer', function (data) { // Cevabın geldiği yer burası
         let point = data[3];
+        let correctAnswerIndex = data[4];
+        console.log(correctAnswerIndex)
         document.getElementById("points").textContent = point;
         if (data[2] == document.getElementById("username-text").textContent) {
             if (data[0]) {

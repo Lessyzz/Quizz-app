@@ -190,7 +190,7 @@ def handle_answer(msg):
         answeredTime = msg[3]
         totalPoint = getQuestionPoints(msg[0]) + answeredTime * 10
         roomuserpoints[msg[2]] += totalPoint # değiştir
-    emit('check_answer', [isTrue, msg[1], msg[2], roomuserpoints[msg[2]]], broadcast=True)
+    emit('check_answer', [isTrue, msg[1], msg[2], roomuserpoints[msg[2]], msg[0] - 1], broadcast=True)
 
 #endregion
 
