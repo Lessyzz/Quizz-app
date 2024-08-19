@@ -186,7 +186,7 @@
 
     function giveAnswer(_questionId, answerId, totalDuration) {
         var time = document.getElementById("time"); //      
-        answeredOn = totalDuration - remaning;
+        answeredOn = remaning;
 
         const cards = document.querySelectorAll("#answers .card");
         cards.forEach((c, i) => {
@@ -208,7 +208,7 @@
 
     function emitAnswer() {
         if (selectedAnswerId != null && questionId != null) {
-            socket.emit('give_answer', [questionId, selectedAnswerId, document.getElementById("username-text").textContent]);
+            socket.emit('give_answer', [questionId, selectedAnswerId, document.getElementById("username-text").textContent, answeredOn]);
         }
     }
 

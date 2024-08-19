@@ -184,10 +184,13 @@ def handle_answer(msg):
     # msg[0] -> question_id, 
     # msg[1] -> answer
     # msg[2] -> username
+    # msg[3] -> answeredTime
     if msg[1] + 1 == getCorrectAnswer(msg[0]): # Doğru mu yanlış mı kontrol et msg[1] + 1 çünkü cevap indexi 0 dan başlıyor doğru cevap indexi 1 den başlıyor
         isTrue = True
-        roomuserpoints[msg[2]] += getQuestionPoints(msg[0]) # değiştir
-    emit('check_answer', [isTrue, msg[1], msg[2]], roomuserpoints[msg[2]], broadcast=True)
+        answeredTime = msg[3]
+        totalPoint = getQuestionPoints(msg[0]) + answeredTime * 10
+        roomuserpoints[msg[2]] += totalPoint # değiştir
+    emit('check_answer', [isTrue, msg[1], msg[2], roomuserpoints[msg[2]]], broadcast=True)
 
 #endregion
 
