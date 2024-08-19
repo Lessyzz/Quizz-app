@@ -61,6 +61,7 @@ def getAnswers(question_id):
 def getCorrectAnswer(question_id):
     conn = sqlite3.connect('Database.sql')
     cursor = conn.cursor()
+
     correct_answer = cursor.execute('SELECT dogru_sik FROM Sorular WHERE id = ?', (question_id,)).fetchone()
     correct_answer = int(correct_answer[0])
     return correct_answer
@@ -184,12 +185,13 @@ def handle_answer(msg):
     # msg[1] -> answer
     # msg[2] -> username
     # msg[3] -> answeredTime
-    if msg[1] + 1 == getCorrectAnswer(msg[0]): # Doğru mu yanlış mı kontrol et msg[1] + 1 çünkü cevap indexi 0 dan başlıyor doğru cevap indexi 1 den başlıyor
+    correct_answer = getCorrectAnswer(msg[0])
+    if msg[1] + 1 == correct_answer: # Doğru mu yanlış mı kontrol et msg[1] + 1 çünkü cevap indexi 0 dan başlıyor doğru cevap indexi 1 den başlıyor
         isTrue = True
         answeredTime = msg[3]
         totalPoint = getQuestionPoints(msg[0]) + answeredTime * 10
         roomuserpoints[msg[2]] += totalPoint # değiştir
-    emit('check_answer', [isTrue, msg[1], msg[2], roomuserpoints[msg[2]], getCorrectAnswer(msg[0])], broadcast=True)
+    emit('check_answer', [isTrue, msg[1], msg[2], roomuserpoints[msg[2]], correct_answer], broadcast=True)
 
 #endregion
 
