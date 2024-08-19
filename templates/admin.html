@@ -163,7 +163,7 @@
         const container = document.getElementById("container")
         container.innerHTML = "";
 
-        container.insertAdjacentHTML("beforeend", loadingAnimationHtml)
+        document.body.insertAdjacentHTML("afterbegin", loadingAnimationHtml)
         container.insertAdjacentHTML("beforeend", `<div class="card" id="change-on-loading" onclick="start_game(${id})">Oyunu başlat!</div>`)
     }
 
@@ -185,6 +185,7 @@
         setTimeout(() => {
             socket.emit("select_test", id);
             document.body.classList.remove("loading")
+            document.querySelector(".loading-container")?.remove()
         }, 7000);
 
     }

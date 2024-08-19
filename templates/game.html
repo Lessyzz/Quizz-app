@@ -109,7 +109,7 @@
 <script src="/static/scripts/socket.io.min.js"></script>
 <script src="/static/assets/loading-animation.js"></script>
 <script defer>
-    document.querySelector(".container").insertAdjacentHTML("beforeend", loadingAnimationHtml)
+    document.body.insertAdjacentHTML("afterbegin", loadingAnimationHtml)
     var socket = io();
 
     socket.on('start_game', function (data) {
@@ -125,6 +125,7 @@
 
     socket.on('get_question_as_player', function (data) {
         document.body.classList.remove("loading")
+        document.querySelector(".loading-container")?.remove()
         question_id = data[0]; // Soru idsi
         question_number = data[1]; // Soru numarası
         question = data[2]; // Soru

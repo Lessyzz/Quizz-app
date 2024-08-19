@@ -3,11 +3,16 @@ const loadingAnimationHtml = `
         <style>
             .loading-container {
                 width: 50dvw;
+                max-width: 100dvh;
                 aspect-ratio: 1;
                 border-radius: 50%;
+                top: 50%;
+                left: 50%;
                 position: absolute;
-                transform: rotate(90deg);
+                transform: translate(-50%, -50%) rotate(90deg);
                 z-index: -1;
+                opacity: 0;
+                transition: opacity .5s;
             }
 
             .sphere-handle {
@@ -27,7 +32,7 @@ const loadingAnimationHtml = `
 
             .loading .loading-container {
                 animation: rotate 30s forwards;
-
+                opacity: 1;
             }
 
             .loading .sphere-handle {
@@ -36,15 +41,15 @@ const loadingAnimationHtml = `
 
             @keyframes rotate {
                 0% {
-                    transform: rotate(90deg);
+                    transform: translate(-50%, -50%) rotate(90deg);
                 }
 
                 10% {
-                    transform: rotate(270deg);
+                    transform: translate(-50%, -50%) rotate(270deg);
                 }
 
                 100% {
-                    transform: rotate(450deg);
+                    transform: translate(-50%, -50%) rotate(450deg);
                 }
             }
 
