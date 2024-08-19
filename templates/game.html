@@ -219,12 +219,14 @@
     socket.on('check_answer', function (data) { // Cevabın geldiği yer burası
         let point = data[3];
         let correctAnswerIndex = data[4];
-        console.log(data);
         document.getElementById("points").textContent = point;
         if (data[2] == document.getElementById("username-text").textContent) {
             if (data[0]) {
-                // Cevap doğru renk boyama olacak
+
             }
+
+            const card = document.querySelector(`#answers .card:nth-child(${correctAnswerIndex})`);
+            card.style.backgroundColor = "#00ff00a0"
         }
         //toLeaderboard() // Leaderbord göster
     });
