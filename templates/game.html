@@ -143,19 +143,19 @@
     });
 
     let remaning;
+    let questionId;
 
     socket.on('get_question_as_player', function (data) {
         document.body.classList.remove("loading")
         document.querySelector(".loading-container")?.remove()
         selectedAnswerId = 666
-        questionId = 666
         answeredOn = null
 
-        let question_id = data[0]; // Soru idsi
+        questionId = data[0]; // Soru idsi
         let question_number = data[1]; // Soru numarası
         let question = data[2]; // Soru
         let duration = data[4] // Süre
-        let answers = data[3].map((answer, i) => `<div class="card" onclick="giveAnswer(${question_id}, ${i}, ${duration})">${answer}</div>`).join("\n")
+        let answers = data[3].map((answer, i) => `<div class="card" onclick="giveAnswer(${i}, ${duration})">${answer}</div>`).join("\n")
 
         const container = document.querySelector(".container")
         container.innerHTML = `
@@ -185,10 +185,9 @@
     }
 
     let selectedAnswerId = 666
-    let questionId = 666
     let answeredOn;
 
-    function giveAnswer(_questionId, answerId, totalDuration) {
+    function giveAnswer(answerId, totalDuration) {
         var time = document.getElementById("time"); //      
         answeredOn = remaning;
 
@@ -207,7 +206,6 @@
         })
 
         selectedAnswerId = answerId
-        questionId = _questionId
     }
 
     function emitAnswer() {
