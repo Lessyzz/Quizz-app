@@ -8,7 +8,7 @@ app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 rooms = {}
-roomusers = []
+roomusers = [] # [[username,roomid]]
 roomuserpoints = {}
 roomnames = []
 
@@ -144,7 +144,7 @@ def game(roomid, characterid):
         lessons = getLessons()
         return render_template('admin.html', username=session["username"], roomid=roomid, lessons=lessons)
     else:                                       # Burada Oyuncu oluyor
-        roomusers.append(session["username"])
+        roomusers.append([session["username"], roomid])
         roomuserpoints[session["username"]] = 0
         return render_template('game.html', username=session["username"], roomid=roomid, characterid=characterid)
 
@@ -180,6 +180,9 @@ def broadcast_question_to_players(msg):
 @socketio.on('give_answer') # Handle answers
 def handle_answer(msg):
     global roomuserpoints
+    print("########################")
+    print(msg)
+    print("########################")
     isTrue = False
     # msg[0] -> question_id, 
     # msg[1] -> answer
@@ -192,6 +195,27 @@ def handle_answer(msg):
         totalPoint = getQuestionPoints(msg[0]) + answeredTime * 10
         roomuserpoints[msg[2]] += totalPoint # değiştir
     emit('check_answer', [isTrue, msg[1], msg[2], roomuserpoints[msg[2]], correct_answer], broadcast=True)
+
+
+@socketio.on('get_leaderboard')
+def emitLeaderboard(roomid):
+    # print("########################")
+    # print("rooms")
+    # print(rooms)
+    
+    # print("roomusers")
+    # print(roomusers)
+
+    # print("roomuserpoints")
+    # print(roomuserpoints)
+    # print("########################")
+    
+    usersInRoom = list(filter(lambda x: x[1] == roomid, roomusers))
+    # leaderboard[0] username
+    #leaderboard[1] points
+    leaderboard = list(map(lambda x:  [x[0], roomuserpoints[x[0]]], usersInRoom))
+    print(leaderboard)
+    emit("show_leaderboard", leaderboard, broadcast = True)
 
 #endregion
 

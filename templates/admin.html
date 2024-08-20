@@ -111,8 +111,6 @@
 
 <body>
     <div class="header">
-        <div id="username">{{username}}</div>
-        <div id="points">50</div>
         <div id="time"></div>
     </div>
 
@@ -239,13 +237,17 @@
     }
 
     function toLeaderboard() {
-        //TODO go to leaderboard 
-        const container = document.querySelector(".container")
+        setTimeout(() => {
+            socket.emit("get_leaderboard", "{{ roomid }}")
+        }, 2000);
+    }
 
-        container.innerHTML = `
+    socket.on("show_leaderboard", function (data) {
+        const container = document.querySelector(".container")
+        container.innerHTML = createLeaderboaard(data) + `
             <div class="card" onclick="nextQuestion()">Sonraki Soru</div>
         `
-    }
+    })
 
     socket.on('get_questions_and_answers', function (data) { // Question answer handle
         questions = data[0]
@@ -257,5 +259,6 @@
 
 </script>
 <script src="/static/assets/loading-animation.js"></script>
+<script src="/static/scripts/createLeaderboard.js"></script>
 
 </html>
