@@ -180,9 +180,9 @@ def broadcast_question_to_players(msg):
 @socketio.on('give_answer') # Handle answers
 def handle_answer(msg):
     global roomuserpoints
-    print("########################")
-    print(msg)
-    print("########################")
+    # print("########################")
+    # print(msg)
+    # print("########################")
     isTrue = False
     # msg[0] -> question_id, 
     # msg[1] -> answer
@@ -214,7 +214,6 @@ def emitLeaderboard(roomid):
     # leaderboard[0] username
     #leaderboard[1] points
     leaderboard = list(map(lambda x:  [x[0], roomuserpoints[x[0]]], usersInRoom))
-    print(leaderboard)
     emit("show_leaderboard", leaderboard, broadcast = True)
 
 #endregion

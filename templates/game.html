@@ -47,7 +47,7 @@
         }
 
         .username-text {
-            margin-left: 10px;
+            margin-left: 20px;
         }
 
         .container {
@@ -127,6 +127,7 @@
 </body>
 <script src="/static/scripts/socket.io.min.js"></script>
 <script src="/static/assets/loading-animation.js"></script>
+<script src="/static/scripts/createLeaderboard.js"></script>
 <script defer>
     document.body.insertAdjacentHTML("afterbegin", loadingAnimationHtml)
     var socket = io();
@@ -225,6 +226,11 @@
         }
         //toLeaderboard() // Leaderbord göster
     });
+
+    socket.on("show_leaderboard", function (data) {
+        const container = document.querySelector(".container")
+        container.innerHTML = createLeaderboaard(data);
+    })
 </script>
 
 </html>

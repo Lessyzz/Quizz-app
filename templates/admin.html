@@ -244,9 +244,15 @@
 
     socket.on("show_leaderboard", function (data) {
         const container = document.querySelector(".container")
-        container.innerHTML = createLeaderboaard(data) + `
+        if (!questions[currentQuestion + 1]) {
+            container.innerHTML = createLeaderboaard(data) + ` <div style="display: flex; justify-content: center; align-items: center; margin-top: -700px; color: white;"> <h1> Oyun bitti! </h1> </div> `
+        }
+        else {
+            container.innerHTML = createLeaderboaard(data) + `
             <div class="card" onclick="nextQuestion()">Sonraki Soru</div>
         `
+        }
+        
     })
 
     socket.on('get_questions_and_answers', function (data) { // Question answer handle

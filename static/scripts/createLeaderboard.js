@@ -12,6 +12,7 @@ function createLeaderboaard(users) {
 
                 .leaderboard h1 {
                     margin: 0;
+                    margin-top: 50px;
                     padding-bottom: 20px;
                     border-bottom: 2px solid var(--col-4);
                     color: #fff;
